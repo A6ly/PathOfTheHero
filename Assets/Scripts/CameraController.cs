@@ -1,45 +1,50 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField] float keyboardInputSensitivity = 1f;
-
-    [SerializeField] Transform bottomLeftBorder;
-    [SerializeField] Transform topRightBorder;
-
-    Vector3 input;
-    Vector3 pointOfOrigin;
+    [SerializeField] float moveSpeed = 15.0f;
+    [SerializeField] float zoomSpeed = 7.5f;
+    [SerializeField] float minZoom = 9.5f;
+    [SerializeField] float maxZoom = 20.0f;
 
     private void Update()
     {
-        NullInput();
-        MoveCameraInput();
-
         MoveCamera();
-    }
-
-    private void NullInput()
-    {
-        input.x = 0;
-        input.y = 0;
-        input.z = 0;
+        ZoomCamera();
     }
 
     private void MoveCamera()
     {
-        Vector3 position = transform.position;
-        position += (input * Time.deltaTime);
-        position.x = Mathf.Clamp(position.x, bottomLeftBorder.position.x, topRightBorder.position.x);
-        position.z = Mathf.Clamp(position.z, bottomLeftBorder.position.z, topRightBorder.position.z);
+        float horizontalInput = Input.GetAxisRaw("Horizontal");
+        float verticalInput = Input.GetAxisRaw("Vertical");
 
-        transform.position = position;
+        Vector3 direction = Vector3.zero;
+
+        if (horizontalInput == -1.0f)
+        {
+            direction = new Vector3(-1.0f, 0.0f, -1.0f);
+        }
+        else if (horizontalInput == 1.0f)
+        {
+            direction = new Vector3(1.0f, 0.0f, 1.0f);
+        }
+        else if (verticalInput == -1.0f)
+        {
+            direction = new Vector3(1.0f, 0.0f, -1.0f);
+        }
+        else if (verticalInput == 1.0f)
+        {
+            direction = new Vector3(-1.0f, 0.0f, 1.0f);
+        }
+
+        transform.position += direction.normalized * moveSpeed * Time.deltaTime;
     }
 
-    private void MoveCameraInput()
+    private void ZoomCamera()
     {
-        input.x += Input.GetAxisRaw("Horizontal") * keyboardInputSensitivity;
-        input.z += Input.GetAxisRaw("Vertical") * keyboardInputSensitivity;
+        float zoomInput = Input.GetAxis("Mouse ScrollWheel") * -1.0f;
+        float zoomDistance = Mathf.Clamp(transform.position.y + zoomInput * zoomSpeed, minZoom, maxZoom);
+
+        transform.position = new Vector3(transform.position.x, zoomDistance, transform.position.z);
     }
 }
