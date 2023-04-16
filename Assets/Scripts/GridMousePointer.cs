@@ -2,16 +2,18 @@ using UnityEngine;
 
 public class GridMousePointer : MonoBehaviour
 {
+    public Vector2Int positionOnGrid;
+
     [SerializeField] GameObject marker;
 
+    [SerializeField] float elevation = 2.0f;
+
     Grid targetGrid;
-    LayerMask terrainLayerMask;
-    Vector2Int positionOnGrid;
-    float elevation = 2f;
+
+    int terrainLayerMask = (1 << (int)Define.Layer.Ground);
 
     private void Start()
     {
-        terrainLayerMask = 1 << LayerMask.NameToLayer("Terrain");
         targetGrid = FindObjectOfType<StageManager>().stageGrid;
     }
 
