@@ -6,6 +6,12 @@ public class CameraController : MonoBehaviour
     [SerializeField] float zoomSpeed = 7.5f;
     [SerializeField] float minZoom = 9.5f;
     [SerializeField] float maxZoom = 20.0f;
+    [SerializeField] float minXLimit = 2.725f;
+    [SerializeField] float maxXLimit = 22.405f;
+    [SerializeField] float minZLimit = -1.905f;
+    [SerializeField] float maxZLimit = 17.775f;
+
+    [SerializeField] Vector3 defaultPosition = new Vector3(15.5f, 15.5f, 5.0f);
 
     private void Update()
     {
@@ -15,6 +21,11 @@ public class CameraController : MonoBehaviour
 
     private void MoveCamera()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            transform.position = defaultPosition;
+        }
+
         float horizontalInput = Input.GetAxisRaw("Horizontal");
         float verticalInput = Input.GetAxisRaw("Vertical");
 
@@ -37,7 +48,12 @@ public class CameraController : MonoBehaviour
             direction = new Vector3(-1.0f, 0.0f, 1.0f);
         }
 
-        transform.position += direction.normalized * moveSpeed * Time.deltaTime;
+        Vector3 newPosition = transform.position + direction.normalized * moveSpeed * Time.deltaTime;
+
+        float xLimit = Mathf.Clamp(newPosition.x, minXLimit, maxXLimit);
+        float zLimit = Mathf.Clamp(newPosition.z, minZLimit, maxZLimit);
+
+        transform.position = new Vector3(xLimit, transform.position.y, zLimit);
     }
 
     private void ZoomCamera()
