@@ -116,4 +116,24 @@ public class Grid : MonoBehaviour
 
         return positionOnGrid;
     }
+
+    public void PlaceObject(Vector2Int positionOnGrid, GridObject gridObject)
+    {
+        if (CheckBoundry(positionOnGrid))
+        {
+            grid[positionOnGrid.x, positionOnGrid.y].gridObject = gridObject;
+        }
+    }
+
+    public GridObject GetPlacedObject(Vector2Int gridPosition)
+    {
+        if (CheckBoundry(gridPosition))
+        {
+            GridObject gridObject = grid[gridPosition.x, gridPosition.y].gridObject;
+
+            return gridObject;
+        }
+
+        return null;
+    }
 }
