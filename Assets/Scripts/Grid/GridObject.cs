@@ -7,11 +7,8 @@ public class GridObject : MonoBehaviour
 
     private void Start()
     {
-
-    }
-
-    private void Init()
-    {
-
+        positionOnGrid = targetGrid.GetGridPosition(transform.position);
+        targetGrid.PlaceObject(positionOnGrid, this);
+        transform.position = targetGrid.GetWorldPosition(positionOnGrid.x, positionOnGrid.y, true);
     }
 }
