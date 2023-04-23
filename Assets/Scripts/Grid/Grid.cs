@@ -1,14 +1,15 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Grid : MonoBehaviour
 {
     Node[,] grid;
 
-    [SerializeField] int width = 15;
-    [SerializeField] int length = 15;
+    public int width = 15;
+    public int length = 15;
+
     [SerializeField] float cellSize = 1.5f;
-    [SerializeField] LayerMask obstacleLayer;
-    [SerializeField] LayerMask terrainLayer;
+    [SerializeField] LayerMask groundLayer;
 
     private void Awake()
     {
@@ -42,20 +43,6 @@ public class Grid : MonoBehaviour
         }
     }
 
-    public bool CheckBoundry(Vector2Int positionOnGrid)
-    {
-        if (positionOnGrid.x < 0 || positionOnGrid.x >= length)
-        {
-            return false;
-        }
-        if (positionOnGrid.y < 0 || positionOnGrid.y >= width)
-        {
-            return false;
-        }
-
-        return true;
-    }
-
     public Vector3 GetWorldPosition(int x, int y, bool elevation = false)
     {
         return new Vector3(x * cellSize, elevation == true ? grid[x, y].elevation : 0f, y * cellSize);
@@ -70,7 +57,7 @@ public class Grid : MonoBehaviour
                 Ray ray = new Ray(GetWorldPosition(x, y) + Vector3.up * 100f, Vector3.down);
                 RaycastHit hit;
 
-                if (Physics.Raycast(ray, out hit, float.MaxValue, terrainLayer))
+                if (Physics.Raycast(ray, out hit, float.MaxValue, groundLayer))
                 {
                     grid[x, y].elevation = hit.point.y;
                 }
@@ -78,43 +65,65 @@ public class Grid : MonoBehaviour
         }
     }
 
-    private void CheckPassableTerrain()
+    private void CheckPassableGround()
     {
         for (int x = 0; x < length; x++)
         {
             for (int y = 0; y < width; y++)
             {
                 Vector3 worldPosition = GetWorldPosition(x, y);
-                bool passable = !Physics.CheckBox(worldPosition, Vector3.one / 2 * cellSize, Quaternion.identity, obstacleLayer);
+                bool passable = Physics.CheckBox(worldPosition, Vector3.one / 2 * cellSize, Quaternion.identity, groundLayer);
                 grid[x, y].passable = passable;
             }
         }
     }
 
-    private void GenerateGrid()
+    public bool CheckBoundry(Vector2Int positionOnGrid)
     {
-        grid = new Node[length, width];
-
-        for (int x = 0; x < length; x++)
+        if (positionOnGrid.x < 0 || positionOnGrid.x >= length)
         {
-            for (int y = 0; y < width; y++)
-            {
-                grid[x, y] = new Node();
-            }
+            return false;
+        }
+        if (positionOnGrid.y < 0 || positionOnGrid.y >= width)
+        {
+            return false;
         }
 
-        CalculateElevation();
-        CheckPassableTerrain();
+        return true;
     }
 
-    public Vector2Int GetGridPosition(Vector3 worldPosition)
+    public bool CheckBoundry(int posX, int posY)
     {
-        worldPosition.x += cellSize / 2;
-        worldPosition.z += cellSize / 2;
+        if (posX < 0 || posX >= length)
+        {
+            return false;
+        }
+        if (posY < 0 || posY >= width)
+        {
+            return false;
+        }
 
-        Vector2Int positionOnGrid = new Vector2Int((int)(worldPosition.x / cellSize), (int)(worldPosition.z / cellSize));
+        return true;
+    }
 
-        return positionOnGrid;
+    public bool CheckWalkable(int posX, int posY)
+    {
+        return grid[posX, posY].passable;
+    }
+
+    public bool CheckElevation(int fromPosX, int fromPosY, int toPosX, int toPosY, float maxClimb = 1.5f)
+    {
+        float fromElevation = grid[fromPosX, fromPosY].elevation;
+        float toElevation = grid[toPosX, toPosY].elevation;
+
+        float diff = Mathf.Abs(fromElevation - toElevation);
+
+        return maxClimb > diff;
+    }
+
+    public bool CheckPlacedObject(Vector2Int positionOnGrid)
+    {
+        return GetPlacedObject(positionOnGrid) != null;
     }
 
     public void PlaceObject(Vector2Int positionOnGrid, GridObject gridObject)
@@ -135,5 +144,55 @@ public class Grid : MonoBehaviour
         }
 
         return null;
+    }
+
+    private void GenerateGrid()
+    {
+        grid = new Node[length, width];
+
+        for (int x = 0; x < length; x++)
+        {
+            for (int y = 0; y < width; y++)
+            {
+                grid[x, y] = new Node();
+            }
+        }
+
+        CalculateElevation();
+        CheckPassableGround();
+    }
+
+    public Vector2Int GetGridPosition(Vector3 worldPosition)
+    {
+        worldPosition.x += cellSize / 2;
+        worldPosition.z += cellSize / 2;
+
+        Vector2Int positionOnGrid = new Vector2Int((int)(worldPosition.x / cellSize), (int)(worldPosition.z / cellSize));
+
+        return positionOnGrid;
+    }
+
+    public List<Vector3> ConvertPathNodesToWorldPositions(List<PathNode> path)
+    {
+        List<Vector3> worldPositions = new List<Vector3>();
+
+        for (int i = 0; i < path.Count; i++)
+        {
+            worldPositions.Add(GetWorldPosition(path[i].posX, path[i].posY, true));
+        }
+
+        return worldPositions;
+    }
+
+    public void RemoveObject(Vector2Int positionOnGrid, GridObject gridObject)
+    {
+        if (CheckBoundry(positionOnGrid))
+        {
+            grid[positionOnGrid.x, positionOnGrid.y].gridObject = null;
+        }
+        else
+        {
+            Debug.Log("You trying to place the object outside the boundries!");
+        }
     }
 }
