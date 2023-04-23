@@ -10,7 +10,7 @@ public class GridMousePointer : MonoBehaviour
 
     Grid targetGrid;
 
-    int terrainLayerMask = (1 << (int)Define.Layer.Ground);
+    int groundLayerMask = (1 << (int)Define.Layer.Ground);
 
     private void Start()
     {
@@ -22,7 +22,7 @@ public class GridMousePointer : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, float.MaxValue, terrainLayerMask))
+        if (Physics.Raycast(ray, out hit, float.MaxValue, groundLayerMask))
         {
             Vector2Int hitPosition = targetGrid.GetGridPosition(hit.point);
             marker.SetActive(true);
