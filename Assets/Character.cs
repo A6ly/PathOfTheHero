@@ -1,18 +1,44 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using static Define;
 
 public class Character : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public float movementPoints = 50f;
+    public int attackRange = 1;
+
+    public DamageType damageType;
+
+    public int GetDamage()
     {
-        
+        int damage = 0;
+
+        switch (damageType)
+        {
+            case DamageType.Physical:
+                damage += 10;
+                break;
+            case DamageType.Magic:
+                damage += 10;
+                break;
+        }
+
+        return damage;
     }
 
-    // Update is called once per frame
-    void Update()
+    public int GetDefense(DamageType type)
     {
-        
+        int def = 0;
+
+        switch (type)
+        {
+            case DamageType.Physical:
+                def += 10;
+                break;
+            case DamageType.Magic:
+                def += 10;
+                break;
+        }
+
+        return def;
     }
 }
