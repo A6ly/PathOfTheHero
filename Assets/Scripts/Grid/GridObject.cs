@@ -7,6 +7,11 @@ public class GridObject : MonoBehaviour
 
     private void Start()
     {
+        if (targetGrid == null)
+        {
+            targetGrid = FindObjectOfType<StageManager>().stageGrid;
+        }
+
         positionOnGrid = targetGrid.GetGridPosition(transform.position);
         targetGrid.PlaceObject(positionOnGrid, this);
         transform.position = targetGrid.GetWorldPosition(positionOnGrid.x, positionOnGrid.y, true);
