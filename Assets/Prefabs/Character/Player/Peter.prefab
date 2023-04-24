@@ -449,7 +449,7 @@ GameObject:
   - component: {fileID: 3907102690120200773}
   - component: {fileID: 6369485271806012440}
   m_Layer: 0
-  m_Name: Character
+  m_Name: Peter
   m_TagString: Character
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -463,7 +463,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1490178633108434052}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.5, y: 1.5, z: 1.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -485,7 +485,7 @@ Animator:
   m_GameObject: {fileID: 1490178633108434052}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 0308cf4e83cf517488b60af58b290fe0, type: 3}
-  m_Controller: {fileID: 9100000, guid: 2be64f57d7d213648aa9b2e5e8e0a39b, type: 2}
+  m_Controller: {fileID: 9100000, guid: ea22c9b0b332aab4d88c2e0625ef0362, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -522,6 +522,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f6abfb76c5ef9549a1c91ccbdcef41a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movementPoints: 50
+  attackRange: 1
+  damageType: 0
 --- !u!114 &7902734694979716969
 MonoBehaviour:
   m_ObjectHideFlags: 0
