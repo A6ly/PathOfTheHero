@@ -28,6 +28,7 @@ public class PathNode
     {
         gValue = 0f;
         hValue = 0f;
+        parentNode = null;
     }
 }
 
