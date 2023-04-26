@@ -13039,6 +13039,75 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7caa70cc2d44f640aa7e8a0b9b4609e, type: 3}
+--- !u!1001 &1661306209
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1490178633108434052, guid: 548be24542bf179408c78d95050b9c1f,
+        type: 3}
+      propertyPath: m_Name
+      value: Peter (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2298521631145752126, guid: 548be24542bf179408c78d95050b9c1f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2298521631145752126, guid: 548be24542bf179408c78d95050b9c1f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 12.11
+      objectReference: {fileID: 0}
+    - target: {fileID: 2298521631145752126, guid: 548be24542bf179408c78d95050b9c1f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2298521631145752126, guid: 548be24542bf179408c78d95050b9c1f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2298521631145752126, guid: 548be24542bf179408c78d95050b9c1f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2298521631145752126, guid: 548be24542bf179408c78d95050b9c1f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2298521631145752126, guid: 548be24542bf179408c78d95050b9c1f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2298521631145752126, guid: 548be24542bf179408c78d95050b9c1f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2298521631145752126, guid: 548be24542bf179408c78d95050b9c1f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2298521631145752126, guid: 548be24542bf179408c78d95050b9c1f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2298521631145752126, guid: 548be24542bf179408c78d95050b9c1f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 548be24542bf179408c78d95050b9c1f, type: 3}
 --- !u!4 &1662695331 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4538505408726318, guid: c7caa70cc2d44f640aa7e8a0b9b4609e,
@@ -17735,6 +17804,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Slime
+      objectReference: {fileID: 0}
+    - target: {fileID: 5645963870216092664, guid: 11e4974b2b53125419722e1c5ef847dd,
+        type: 3}
+      propertyPath: characterType
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 11e4974b2b53125419722e1c5ef847dd, type: 3}
