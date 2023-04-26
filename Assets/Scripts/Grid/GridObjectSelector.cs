@@ -4,13 +4,11 @@ public class GridObjectSelector : MonoBehaviour
 {
     GridMousePointer gridMousePointer;
     CommandMenu commandMenu;
-    StatusWindow statusWindow;
 
     private void Awake()
     {
         gridMousePointer = GetComponent<GridMousePointer>();
         commandMenu = GetComponent<CommandMenu>();
-        statusWindow = GetComponent<StatusWindow>();
     }
 
     public Character selected;
@@ -65,8 +63,22 @@ public class GridObjectSelector : MonoBehaviour
         }
     }
 
+    private void UpdateMenu()
+    {
+        if (selected != null)
+        {
+            commandMenu.OpenMenu(selected.GetComponent<CharacterTurn>());
+        }
+        else
+        {
+            commandMenu.CloseMenu();
+        }
+    }
+
     private void SelectObject()
     {
+        OnMouseOverObject();
+
         if (Input.GetMouseButtonDown(0))
         {
             if (hoverOverCharacter != null && selected == null)
@@ -74,8 +86,7 @@ public class GridObjectSelector : MonoBehaviour
                 selected = hoverOverCharacter;
                 isSelected = true;
 
-                commandMenu.OpenMenu(selected.GetComponent<CharacterTurn>());
-                statusWindow.OpenWindow(selected.GetComponent<Character>());
+                UpdateMenu();
             }
         }
     }
@@ -87,7 +98,6 @@ public class GridObjectSelector : MonoBehaviour
             selected = null;
 
             commandMenu.CloseMenu();
-            statusWindow.CloseWindow();
         }
     }
 
