@@ -5,19 +5,59 @@ public class StatusWindow : MonoBehaviour
     [SerializeField] GameObject characterStatusWindow;
     [SerializeField] GameObject monsterStatusWindow;
 
-    public void OpenWindow(Character character)
+    GridObjectSelector gridObjectSelector;
+    Character currentCharacter;
+
+    bool isActive;
+
+    private void Start()
     {
-        characterStatusWindow.SetActive(true);
+        gridObjectSelector = GetComponent<GridObjectSelector>();
     }
 
-    //public void OpenWindow(Monster monster)
-    //{
-    //    monsterStatusWindow.SetActive(true);
-    //}
+    private void Update()
+    {
+        OnMouseOverObject();
+    }
+
+    private void OnMouseOverObject()
+    {
+        if (isActive)
+        {
+            if (gridObjectSelector.hoverOverCharacter == null)
+            {
+                CloseWindow();
+
+                return;
+            }
+
+            if (gridObjectSelector.hoverOverCharacter != currentCharacter)
+            {
+                currentCharacter = gridObjectSelector.hoverOverCharacter;
+                //statusPanel.UpdateStatus(currentCharacter);
+            }
+        }
+        else
+        {
+            if (gridObjectSelector.hoverOverCharacter != null)
+            {
+                currentCharacter = gridObjectSelector.hoverOverCharacter;
+                OpenWindow();
+
+                return;
+            }
+        }
+    }
+
+    public void OpenWindow()
+    {
+        characterStatusWindow.SetActive(true);
+        isActive = true;
+    }
 
     public void CloseWindow()
     {
         characterStatusWindow.SetActive(false);
-        monsterStatusWindow.SetActive(false);
+        isActive = false;
     }
 }
