@@ -6,6 +6,12 @@ public class Define
         Attack,
     }
 
+    public enum CharacterType
+    {
+        Player,
+        Enemy,
+    }
+
     public enum DamageType
     {
         Physical,

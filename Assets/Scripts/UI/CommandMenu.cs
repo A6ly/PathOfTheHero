@@ -5,7 +5,6 @@ public class CommandMenu : MonoBehaviour
     [SerializeField] GameObject commandMenu;
     [SerializeField] GameObject moveButton;
     [SerializeField] GameObject attackButton;
-    [SerializeField] GameObject endTurnButton;
 
     CommandInput commandInput;
     CharacterTurn character;
@@ -17,11 +16,14 @@ public class CommandMenu : MonoBehaviour
 
     public void OpenMenu(CharacterTurn characterTurn)
     {
-        character = characterTurn;
+        if (TurnManager.Instance.CheckCurrentTurn(characterTurn))
+        {
+            character = characterTurn;
 
-        commandMenu.SetActive(true);
-        moveButton.SetActive(character.canMove);
-        attackButton.SetActive(character.canAttack);
+            commandMenu.SetActive(true);
+            moveButton.SetActive(character.canMove);
+            attackButton.SetActive(character.canAttack);
+        }
     }
 
     public void CloseMenu()
