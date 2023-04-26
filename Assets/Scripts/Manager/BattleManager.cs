@@ -33,12 +33,7 @@ public class BattleManager : MonoBehaviour
     {
         List<PathNode> path = pathFinder.TraceBackPath(from.x, from.y);
 
-        if (path == null)
-        {
-            return null;
-        }
-
-        if (path.Count == 0)
+        if (path == null || path.Count == 0)
         {
             return null;
         }
