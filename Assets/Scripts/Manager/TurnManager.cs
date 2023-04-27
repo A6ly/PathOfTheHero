@@ -3,16 +3,16 @@ using static Define;
 
 public class TurnManager : MonoBehaviour
 {
-    private static TurnManager instance;
-    public static TurnManager Instance { get { return instance; } }
+    public static TurnManager Instance { get; private set; }
 
     private void Awake()
     {
-        instance = this;
+        Instance = this;
     }
 
     [SerializeField] CharacterContainer playerContainer;
     [SerializeField] CharacterContainer enemyContainer;
+    [SerializeField] GameObject endTurnButton;
 
     public void Add(CharacterTurn character)
     {
@@ -47,10 +47,12 @@ public class TurnManager : MonoBehaviour
         {
             case CharacterType.Player:
                 currentTurn = CharacterType.Enemy;
+                endTurnButton.SetActive(false);
                 //opponentForceContainer.GetComponent<BattleAI>().StartBattle();
                 break;
             case CharacterType.Enemy:
                 currentTurn = CharacterType.Player;
+                endTurnButton.SetActive(true);
                 break;
         }
 
@@ -67,5 +69,10 @@ public class TurnManager : MonoBehaviour
         {
             return false;
         }
+    }
+
+    private void OnDestroy()
+    {
+        Instance = null;
     }
 }
