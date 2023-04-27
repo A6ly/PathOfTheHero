@@ -1,19 +1,16 @@
 using UnityEngine;
+using static Define;
 
 public class StatusWindow : MonoBehaviour
 {
+    [SerializeField] GridObjectSelector gridObjectSelector;
     [SerializeField] GameObject characterStatusWindow;
     [SerializeField] GameObject monsterStatusWindow;
 
-    GridObjectSelector gridObjectSelector;
     Character currentCharacter;
+    CharacterTurn currentCharacterTurn;
 
     bool isActive;
-
-    private void Start()
-    {
-        gridObjectSelector = GetComponent<GridObjectSelector>();
-    }
 
     private void Update()
     {
@@ -34,6 +31,7 @@ public class StatusWindow : MonoBehaviour
             if (gridObjectSelector.hoverOverCharacter != currentCharacter)
             {
                 currentCharacter = gridObjectSelector.hoverOverCharacter;
+                currentCharacterTurn = currentCharacter.GetComponent<CharacterTurn>();
                 //statusPanel.UpdateStatus(currentCharacter);
             }
         }
@@ -42,6 +40,7 @@ public class StatusWindow : MonoBehaviour
             if (gridObjectSelector.hoverOverCharacter != null)
             {
                 currentCharacter = gridObjectSelector.hoverOverCharacter;
+                currentCharacterTurn = currentCharacter.GetComponent<CharacterTurn>();
                 OpenWindow();
 
                 return;
@@ -51,13 +50,22 @@ public class StatusWindow : MonoBehaviour
 
     public void OpenWindow()
     {
-        characterStatusWindow.SetActive(true);
-        isActive = true;
+        if (currentCharacterTurn.characterType == CharacterType.Player)
+        {
+            characterStatusWindow.SetActive(true);
+            isActive = true;
+        }
+        else if (currentCharacterTurn.characterType == CharacterType.Enemy)
+        {
+            monsterStatusWindow.SetActive(true);
+            isActive = true;
+        }
     }
 
     public void CloseWindow()
     {
         characterStatusWindow.SetActive(false);
+        monsterStatusWindow.SetActive(false);
         isActive = false;
     }
 }
