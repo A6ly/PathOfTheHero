@@ -2,15 +2,21 @@ using UnityEngine;
 
 public class StageManager : MonoBehaviour
 {
-    public Grid stageGrid;
-    public PathFinder pathFinder;
-    public GridHighlight moveHighlight;
-    public GridHighlight attackHighlight;
+    public static StageManager Instance { get; private set; }
+
+    [SerializeField] private Grid stageGrid;
+    [SerializeField] private PathFinder pathFinder;
+    [SerializeField] private GridHighlight moveHighlight;
+    [SerializeField] private GridHighlight attackHighlight;
+
+    public Grid StageGrid { get { return stageGrid; } }
+    public PathFinder PathFinder { get { return pathFinder; } }
+    public GridHighlight MoveHighlight { get { return moveHighlight; } }
+    public GridHighlight AttackHighlight { get { return attackHighlight; } }
 
     private void Awake()
     {
-        stageGrid = GetComponent<Grid>();
-        pathFinder = GetComponent<PathFinder>();
+        Instance = this;
     }
 
     public void ClearPathFinder()
@@ -26,5 +32,10 @@ public class StageManager : MonoBehaviour
     public void ClearAttackHighlight()
     {
         attackHighlight.Hide();
+    }
+
+    private void OnDestroy()
+    {
+        Instance = null;
     }
 }

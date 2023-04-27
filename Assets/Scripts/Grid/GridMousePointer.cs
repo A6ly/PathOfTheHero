@@ -8,14 +8,7 @@ public class GridMousePointer : MonoBehaviour
 
     [SerializeField] float elevation = 2.0f;
 
-    Grid targetGrid;
-
     int groundLayerMask = (1 << (int)Define.Layer.Ground);
-
-    private void Start()
-    {
-        targetGrid = FindObjectOfType<StageManager>().stageGrid;
-    }
 
     private void Update()
     {
@@ -24,7 +17,7 @@ public class GridMousePointer : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, float.MaxValue, groundLayerMask))
         {
-            Vector2Int hitPosition = targetGrid.GetGridPosition(hit.point);
+            Vector2Int hitPosition = StageManager.Instance.StageGrid.GetGridPosition(hit.point);
             marker.SetActive(true);
 
             if (hitPosition != positionOnGrid)
@@ -41,9 +34,9 @@ public class GridMousePointer : MonoBehaviour
 
     private void UpdateMarker()
     {
-        if (targetGrid.CheckBoundry(positionOnGrid))
+        if (StageManager.Instance.StageGrid.CheckBoundry(positionOnGrid))
         {
-            Vector3 worldPosition = targetGrid.GetWorldPosition(positionOnGrid.x, positionOnGrid.y, true);
+            Vector3 worldPosition = StageManager.Instance.StageGrid.GetWorldPosition(positionOnGrid.x, positionOnGrid.y, true);
             worldPosition.y += elevation;
             marker.transform.position = worldPosition;
         }

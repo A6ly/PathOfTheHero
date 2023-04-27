@@ -3,35 +3,25 @@ using UnityEngine;
 
 public class BattleManager : MonoBehaviour
 {
-    Grid targetGrid;
-    PathFinder pathFinder;
-    GridHighlight moveHighlight;
-    GridHighlight attackHighlight;
-
     List<Vector2Int> attackPosition;
 
-    private void Start()
-    {
-        StageManager stageManager = FindObjectOfType<StageManager>();
-        targetGrid = stageManager.stageGrid;
-        pathFinder = stageManager.pathFinder;
-        moveHighlight = stageManager.moveHighlight;
-        attackHighlight = stageManager.attackHighlight;
-    }
-
-    public void CheckWalkableGround(Character character)
+    public void CheckWalkableGround(Character character, bool isHighlight = true)
     {
         GridObject gridObject = character.GetComponent<GridObject>();
         List<PathNode> walkableNodes = new List<PathNode>();
-        pathFinder.Clear();
-        pathFinder.CalculateWalkableNodes(gridObject.positionOnGrid.x, gridObject.positionOnGrid.y, character.movementPoints, ref walkableNodes);
-        moveHighlight.Hide();
-        moveHighlight.Highlight(walkableNodes);
+        StageManager.Instance.PathFinder.Clear();
+        StageManager.Instance.PathFinder.CalculateWalkableNodes(gridObject.positionOnGrid.x, gridObject.positionOnGrid.y, character.movementPoints, ref walkableNodes);
+
+        if (isHighlight)
+        {
+            StageManager.Instance.MoveHighlight.Hide();
+            StageManager.Instance.MoveHighlight.Highlight(walkableNodes);
+        }
     }
 
     public List<PathNode> GetPath(Vector2Int from)
     {
-        List<PathNode> path = pathFinder.TraceBackPath(from.x, from.y);
+        List<PathNode> path = StageManager.Instance.PathFinder.TraceBackPath(from.x, from.y);
 
         if (path == null || path.Count == 0)
         {
@@ -45,7 +35,7 @@ public class BattleManager : MonoBehaviour
 
     public bool CheckPlacedObject(Vector2Int positionOnGrid)
     {
-        return targetGrid.CheckPlacedObject(positionOnGrid);
+        return StageManager.Instance.StageGrid.CheckPlacedObject(positionOnGrid);
     }
 
     public void CalculateAttackArea(Vector2Int characterPositionOnGrid, int attackRange, bool selfTargetable = false)
@@ -76,19 +66,19 @@ public class BattleManager : MonoBehaviour
                     }
                 }
 
-                if (targetGrid.CheckBoundry(characterPositionOnGrid.x + x, characterPositionOnGrid.y + y))
+                if (StageManager.Instance.StageGrid.CheckBoundry(characterPositionOnGrid.x + x, characterPositionOnGrid.y + y))
                 {
                     attackPosition.Add(new Vector2Int(characterPositionOnGrid.x + x, characterPositionOnGrid.y + y));
                 }
             }
         }
 
-        attackHighlight.Highlight(attackPosition);
+        StageManager.Instance.AttackHighlight.Highlight(attackPosition);
     }
 
     public GridObject GetAttackTarget(Vector2Int positionOnGrid)
     {
-        GridObject target = targetGrid.GetPlacedObject(positionOnGrid);
+        GridObject target = StageManager.Instance.StageGrid.GetPlacedObject(positionOnGrid);
 
         return target;
     }

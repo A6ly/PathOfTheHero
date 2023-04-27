@@ -76,14 +76,14 @@ public class CharacterController : MonoBehaviour
             SkipAnimation();
         }
 
-        pathWorldPositions = gridObject.targetGrid.ConvertPathNodesToWorldPositions(path);
+        pathWorldPositions = StageManager.Instance.StageGrid.ConvertPathNodesToWorldPositions(path);
 
-        gridObject.targetGrid.RemoveObject(gridObject.positionOnGrid, gridObject);
+        StageManager.Instance.StageGrid.RemoveObject(gridObject.positionOnGrid, gridObject);
 
         gridObject.positionOnGrid.x = path[path.Count - 1].posX;
         gridObject.positionOnGrid.y = path[path.Count - 1].posY;
 
-        gridObject.targetGrid.PlaceObject(gridObject.positionOnGrid, gridObject);
+        StageManager.Instance.StageGrid.PlaceObject(gridObject.positionOnGrid, gridObject);
 
         RotateCharacter(transform.position, pathWorldPositions[0]);
 

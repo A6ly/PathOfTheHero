@@ -1,31 +1,18 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static Define;
 
 public class CommandInput : MonoBehaviour
 {
-    CommandManager commandManager;
-    GridMousePointer gridMousePointer;
-    BattleManager battleManager;
-    GridObjectSelector gridObjectSelector;
-    StageManager stageManager;
+    [SerializeField] GridMousePointer gridMousePointer;
+    [SerializeField] GridObjectSelector gridObjectSelector;
+    [SerializeField] BattleManager battleManager;
+    [SerializeField] CommandManager commandManager;
 
-    private void Awake()
-    {
-        commandManager = GetComponent<CommandManager>();
-        gridMousePointer = GetComponent<GridMousePointer>();
-        battleManager = GetComponent<BattleManager>();
-        gridObjectSelector = GetComponent<GridObjectSelector>();
-    }
-
-    private void Start()
-    {
-        stageManager = FindObjectOfType<StageManager>();
-    }
-
-    Define.CommandType currentCommand;
+    CommandType currentCommand;
     bool isInputCommand;
 
-    public void SetCommandType(Define.CommandType commandType)
+    public void SetCommandType(CommandType commandType)
     {
         currentCommand = commandType;
     }
@@ -41,10 +28,10 @@ public class CommandInput : MonoBehaviour
 
         switch (currentCommand)
         {
-            case Define.CommandType.Move:
+            case CommandType.Move:
                 HighlightWalkableGround();
                 break;
-            case Define.CommandType.Attack:
+            case CommandType.Attack:
                 battleManager.CalculateAttackArea(gridObjectSelector.selected.GetComponent<GridObject>().positionOnGrid, gridObjectSelector.selected.attackRange);
                 break;
         }
@@ -59,10 +46,10 @@ public class CommandInput : MonoBehaviour
 
         switch (currentCommand)
         {
-            case Define.CommandType.Move:
+            case CommandType.Move:
                 MoveCommandInput();
                 break;
-            case Define.CommandType.Attack:
+            case CommandType.Attack:
                 AttackCommandInput();
                 break;
         }
@@ -94,8 +81,8 @@ public class CommandInput : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             StopCommandInput();
-            stageManager.ClearMoveHighlight();
-            stageManager.ClearPathFinder();
+            StageManager.Instance.ClearMoveHighlight();
+            StageManager.Instance.ClearPathFinder();
         }
     }
 
@@ -118,7 +105,7 @@ public class CommandInput : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             StopCommandInput();
-            stageManager.ClearAttackHighlight();
+            StageManager.Instance.ClearAttackHighlight();
         }
     }
 }

@@ -21,13 +21,6 @@ public class Command
 
 public class CommandManager : MonoBehaviour
 {
-    StageManager stageManager;
-
-    private void Start()
-    {
-        stageManager = FindObjectOfType<StageManager>();
-    }
-
     public Command currentCommand;
 
     private void Update()
@@ -58,8 +51,8 @@ public class CommandManager : MonoBehaviour
         character.GetComponent<CharacterTurn>().canMove = false;
 
         currentCommand = null;
-        stageManager.ClearPathFinder();
-        stageManager.ClearMoveHighlight();
+        StageManager.Instance.ClearPathFinder();
+        StageManager.Instance.ClearMoveHighlight();
     }
 
     private void AttackCommand()
@@ -70,7 +63,7 @@ public class CommandManager : MonoBehaviour
         //victoryConditionManager.CheckPlayerVictory();
 
         currentCommand = null;
-        stageManager.ClearAttackHighlight();
+        StageManager.Instance.ClearAttackHighlight();
     }
 
     public void AddMoveCommand(Character character, Vector2Int selectedGrid, List<PathNode> path)
