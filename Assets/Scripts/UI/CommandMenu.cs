@@ -2,17 +2,12 @@ using UnityEngine;
 
 public class CommandMenu : MonoBehaviour
 {
+    [SerializeField] CommandInput commandInput;
     [SerializeField] GameObject commandMenu;
     [SerializeField] GameObject moveButton;
     [SerializeField] GameObject attackButton;
 
-    CommandInput commandInput;
     CharacterTurn character;
-
-    private void Awake()
-    {
-        commandInput = GetComponent<CommandInput>();
-    }
 
     public void OpenMenu(CharacterTurn characterTurn)
     {
