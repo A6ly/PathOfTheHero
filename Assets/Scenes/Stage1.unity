@@ -2895,8 +2895,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f974ecc64f884194eaed2a3cda281c99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageGrid: {fileID: 0}
-  pathFinder: {fileID: 0}
+  stageGrid: {fileID: 321528080}
+  pathFinder: {fileID: 321528079}
   moveHighlight: {fileID: 1423391178}
   attackHighlight: {fileID: 634308945}
 --- !u!114 &321528079
