@@ -11,6 +11,9 @@ public class Grid : MonoBehaviour
     [SerializeField] float cellSize = 1.5f;
     [SerializeField] LayerMask groundLayer;
 
+    int[] dx = { 0, 0, 1, -1 };
+    int[] dy = { 1, -1, 0, 0 };
+
     private void Awake()
     {
         GenerateGrid();
@@ -126,6 +129,11 @@ public class Grid : MonoBehaviour
         return GetPlacedObject(positionOnGrid) != null;
     }
 
+    public bool CheckOccupied(Vector2Int positionOnGrid)
+    {
+        return GetPlacedObject(positionOnGrid) != null;
+    }
+
     public void PlaceObject(Vector2Int positionOnGrid, GridObject gridObject)
     {
         if (CheckBoundry(positionOnGrid))
@@ -194,5 +202,43 @@ public class Grid : MonoBehaviour
         {
             Debug.Log("You trying to place the object outside the boundries!");
         }
+    }
+
+    public List<KeyValuePair<int, Vector2Int>> GetCharacterPeripheralPosition(Vector2Int positionOnGrid)
+    {
+        List<KeyValuePair<int, Vector2Int>> targets = new List<KeyValuePair<int, Vector2Int>>();
+
+        for (int x = 0; x < length; x++)
+        {
+            for (int y = 0; y < length; y++)
+            {
+                if (grid[x, y].gridObject)
+                {
+                    if (grid[x, y].gridObject.gameObject.CompareTag("Character"))
+                    {
+                        int distance = Mathf.Abs(positionOnGrid.x - x) + Mathf.Abs(positionOnGrid.y - y);
+
+                        for (int i = 0; i < 4; i++)
+                        {
+                            Vector2Int pos = positionOnGrid;
+
+                            pos.x = grid[x, y].gridObject.positionOnGrid.x + dx[i];
+                            pos.y = grid[x, y].gridObject.positionOnGrid.y + dy[i];
+
+                            if (!CheckBoundry(pos.x, pos.y) || !CheckWalkable(pos.x, pos.y) || CheckOccupied(pos))
+                            {
+                                continue;
+                            }
+
+                            targets.Add(new KeyValuePair<int, Vector2Int>(distance, pos));
+                        }
+                    }
+                }
+            }
+        }
+
+        targets.Sort((x, y) => x.Key.CompareTo(y.Key));
+
+        return targets;
     }
 }
