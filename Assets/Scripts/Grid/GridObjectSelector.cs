@@ -15,16 +15,10 @@ public class GridObjectSelector : MonoBehaviour
     public Character hoverOverCharacter;
 
     GridObject hoverOverGridObject;
-    Grid targetGrid;
 
     bool isSelected;
 
     Vector2Int positionOnGrid = new Vector2Int(-1, -1);
-
-    private void Start()
-    {
-        targetGrid = FindObjectOfType<StageManager>().stageGrid;
-    }
 
     private void Update()
     {
@@ -51,7 +45,7 @@ public class GridObjectSelector : MonoBehaviour
     private void OnMouseOverObject()
     {
         positionOnGrid = gridMousePointer.positionOnGrid;
-        hoverOverGridObject = targetGrid.GetPlacedObject(positionOnGrid);
+        hoverOverGridObject = StageManager.Instance.StageGrid.GetPlacedObject(positionOnGrid);
 
         if (hoverOverGridObject != null)
         {
@@ -81,7 +75,7 @@ public class GridObjectSelector : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (hoverOverCharacter != null && selected == null)
+            if (hoverOverCharacter != null && selected == null && TurnManager.Instance.CheckCurrentTurn(hoverOverCharacter.GetComponent<CharacterTurn>()))
             {
                 selected = hoverOverCharacter;
                 isSelected = true;
