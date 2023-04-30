@@ -17,11 +17,6 @@ public class CommandInput : MonoBehaviour
         currentCommand = commandType;
     }
 
-    public void HighlightWalkableGround()
-    {
-        battleManager.CheckWalkableGround(gridObjectSelector.selected);
-    }
-
     public void InitCommand()
     {
         isInputCommand = true;
@@ -29,10 +24,10 @@ public class CommandInput : MonoBehaviour
         switch (currentCommand)
         {
             case CommandType.Move:
-                HighlightWalkableGround();
+                battleManager.CalculateWalkableGround(gridObjectSelector.selected);
                 break;
             case CommandType.Attack:
-                battleManager.CalculateAttackArea(gridObjectSelector.selected.GetComponent<GridObject>().positionOnGrid, gridObjectSelector.selected.attackRange);
+                battleManager.CalculateAttackArea(gridObjectSelector.selected.GetComponent<GridObject>().positionOnGrid, gridObjectSelector.selected.attackRange, gridObjectSelector.selected.tag);
                 break;
         }
     }
@@ -58,7 +53,6 @@ public class CommandInput : MonoBehaviour
     private void StopCommandInput()
     {
         gridObjectSelector.Deselect();
-        gridObjectSelector.enabled = true;
         isInputCommand = false;
     }
 
@@ -66,7 +60,7 @@ public class CommandInput : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (!battleManager.CheckPlacedObject(gridMousePointer.positionOnGrid))
+            if (!StageManager.Instance.StageGrid.CheckPlacedObject(gridMousePointer.positionOnGrid))
             {
                 List<PathNode> path = battleManager.GetPath(gridMousePointer.positionOnGrid);
 
@@ -88,6 +82,11 @@ public class CommandInput : MonoBehaviour
 
     private void AttackCommandInput()
     {
+        if(battleManager.CheckNoAttackablePosition())
+        {
+            StopCommandInput();
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             if (battleManager.CheckAttackable(gridMousePointer.positionOnGrid))

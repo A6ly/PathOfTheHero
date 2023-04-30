@@ -1,11 +1,12 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BattleManager : MonoBehaviour
 {
     List<Vector2Int> attackPosition;
 
-    public void CheckWalkableGround(Character character, bool isHighlight = true)
+    public void CalculateWalkableGround(Character character, bool isHighlight = true)
     {
         GridObject gridObject = character.GetComponent<GridObject>();
         List<PathNode> walkableNodes = new List<PathNode>();
@@ -33,12 +34,7 @@ public class BattleManager : MonoBehaviour
         return path;
     }
 
-    public bool CheckPlacedObject(Vector2Int positionOnGrid)
-    {
-        return StageManager.Instance.StageGrid.CheckPlacedObject(positionOnGrid);
-    }
-
-    public void CalculateAttackArea(Vector2Int characterPositionOnGrid, int attackRange, bool selfTargetable = false)
+    public void CalculateAttackArea(Vector2Int characterPositionOnGrid, int attackRange, string tag, bool selfTargetable = false)
     {
         if (attackPosition == null)
         {
@@ -68,7 +64,10 @@ public class BattleManager : MonoBehaviour
 
                 if (StageManager.Instance.StageGrid.CheckBoundry(characterPositionOnGrid.x + x, characterPositionOnGrid.y + y))
                 {
-                    attackPosition.Add(new Vector2Int(characterPositionOnGrid.x + x, characterPositionOnGrid.y + y));
+                    if (StageManager.Instance.StageGrid.CheckAttackTarget(characterPositionOnGrid.x + x, characterPositionOnGrid.y + y, tag))
+                    {
+                        attackPosition.Add(new Vector2Int(characterPositionOnGrid.x + x, characterPositionOnGrid.y + y));
+                    }
                 }
             }
         }
@@ -86,5 +85,15 @@ public class BattleManager : MonoBehaviour
     public bool CheckAttackable(Vector2Int positionOnGrid)
     {
         return attackPosition.Contains(positionOnGrid);
+    }
+
+    public bool CheckNoAttackablePosition()
+    {
+        if (!attackPosition.Any())
+        {
+            return true;
+        }
+
+        return false;
     }
 }
