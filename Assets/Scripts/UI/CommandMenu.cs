@@ -1,4 +1,5 @@
 using UnityEngine;
+using static Define;
 
 public class CommandMenu : MonoBehaviour
 {
@@ -11,14 +12,11 @@ public class CommandMenu : MonoBehaviour
 
     public void OpenMenu(CharacterTurn characterTurn)
     {
-        if (TurnManager.Instance.CheckCurrentTurn(characterTurn))
-        {
-            character = characterTurn;
+        character = characterTurn;
 
-            commandMenu.SetActive(true);
-            moveButton.SetActive(character.canMove);
-            attackButton.SetActive(character.canAttack);
-        }
+        commandMenu.SetActive(true);
+        moveButton.SetActive(character.canMove);
+        attackButton.SetActive(character.canAttack);
     }
 
     public void CloseMenu()
@@ -32,7 +30,7 @@ public class CommandMenu : MonoBehaviour
     {
         if (character.canMove)
         {
-            commandInput.SetCommandType(Define.CommandType.Move);
+            commandInput.SetCommandType(CommandType.Move);
             commandInput.InitCommand();
             CloseMenu();
         }
@@ -42,7 +40,7 @@ public class CommandMenu : MonoBehaviour
     {
         if (character.canAttack)
         {
-            commandInput.SetCommandType(Define.CommandType.Attack);
+            commandInput.SetCommandType(CommandType.Attack);
             commandInput.InitCommand();
             CloseMenu();
         }
