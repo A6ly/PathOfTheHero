@@ -450,7 +450,7 @@ GameObject:
   - component: {fileID: 6369485271806012440}
   m_Layer: 0
   m_Name: Peter
-  m_TagString: Character
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -508,7 +508,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 787f12cfa1a3d0a48a81f4f4d30cb0f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetGrid: {fileID: 0}
   positionOnGrid: {x: 0, y: 0}
 --- !u!114 &6228544875248007909
 MonoBehaviour:
@@ -537,6 +536,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6a58ff33636f714bb655f8037b230f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterType: 0
   canMove: 1
   canAttack: 1
 --- !u!114 &3907102690120200773

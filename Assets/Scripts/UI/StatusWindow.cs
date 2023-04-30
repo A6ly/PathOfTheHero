@@ -1,5 +1,4 @@
 using UnityEngine;
-using static Define;
 
 public class StatusWindow : MonoBehaviour
 {
@@ -8,7 +7,6 @@ public class StatusWindow : MonoBehaviour
     [SerializeField] GameObject monsterStatusWindow;
 
     Character currentCharacter;
-    CharacterTurn currentCharacterTurn;
 
     bool isActive;
 
@@ -31,7 +29,6 @@ public class StatusWindow : MonoBehaviour
             if (gridObjectSelector.hoverOverCharacter != currentCharacter)
             {
                 currentCharacter = gridObjectSelector.hoverOverCharacter;
-                currentCharacterTurn = currentCharacter.GetComponent<CharacterTurn>();
                 //statusPanel.UpdateStatus(currentCharacter);
             }
         }
@@ -40,7 +37,6 @@ public class StatusWindow : MonoBehaviour
             if (gridObjectSelector.hoverOverCharacter != null)
             {
                 currentCharacter = gridObjectSelector.hoverOverCharacter;
-                currentCharacterTurn = currentCharacter.GetComponent<CharacterTurn>();
                 OpenWindow();
 
                 return;
@@ -50,12 +46,12 @@ public class StatusWindow : MonoBehaviour
 
     public void OpenWindow()
     {
-        if (currentCharacterTurn.characterType == CharacterType.Player)
+        if (currentCharacter.CompareTag("Player"))
         {
             characterStatusWindow.SetActive(true);
             isActive = true;
         }
-        else if (currentCharacterTurn.characterType == CharacterType.Enemy)
+        else if (currentCharacter.CompareTag("Monster"))
         {
             monsterStatusWindow.SetActive(true);
             isActive = true;
