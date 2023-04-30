@@ -80,7 +80,10 @@ public class GridObjectSelector : MonoBehaviour
                 selected = hoverOverCharacter;
                 isSelected = true;
 
-                UpdateMenu();
+                if (hoverOverCharacter.CompareTag("Player"))
+                {
+                    UpdateMenu();
+                }
             }
         }
     }
