@@ -10,9 +10,16 @@ public class TurnManager : MonoBehaviour
         Instance = this;
     }
 
+    [SerializeField] GridObjectSelector gridObjectSelector;
     [SerializeField] CharacterContainer playerContainer;
     [SerializeField] CharacterContainer enemyContainer;
     [SerializeField] GameObject endTurnButton;
+    BattleAI battleAI;
+
+    private void Start()
+    {
+        battleAI = enemyContainer.GetComponent<BattleAI>();
+    }
 
     public void Add(CharacterTurn character)
     {
@@ -48,7 +55,7 @@ public class TurnManager : MonoBehaviour
             case CharacterType.Player:
                 currentTurn = CharacterType.Enemy;
                 endTurnButton.SetActive(false);
-                //opponentForceContainer.GetComponent<BattleAI>().StartBattle();
+                battleAI.StartBattle();
                 break;
             case CharacterType.Enemy:
                 currentTurn = CharacterType.Player;
@@ -56,6 +63,7 @@ public class TurnManager : MonoBehaviour
                 break;
         }
 
+        gridObjectSelector.Deselect();
         ResetTurnToContainer();
     }
 
