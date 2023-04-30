@@ -1200,6 +1200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22a174711892d294e96bcf76d4d0e2d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridObjectSelector: {fileID: 515878823}
   playerContainer: {fileID: 1916732489}
   enemyContainer: {fileID: 1104081615}
   endTurnButton: {fileID: 440220721}
