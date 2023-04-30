@@ -11,8 +11,6 @@ public class CharacterController : MonoBehaviour
 
     List<Vector3> pathWorldPositions;
 
-    IEnumerator enumerator;
-
     float moveSpeed = 1.0f;
 
     public bool IS_MOVING
@@ -116,12 +114,10 @@ public class CharacterController : MonoBehaviour
 
     public void Attack(GridObject targetGridObject)
     {
-        enumerator = Attacking(targetGridObject);
-
-        StartCoroutine(enumerator);
+        StartCoroutine(Attacking(targetGridObject));
     }
 
-    IEnumerator Attacking(GridObject targetGridObject)
+    private IEnumerator Attacking(GridObject targetGridObject)
     {
         RotateCharacter(targetGridObject.transform.position);
         characterAnimator.Attack();
@@ -131,7 +127,6 @@ public class CharacterController : MonoBehaviour
         Character target = targetGridObject.GetComponent<Character>();
 
         int damage = character.GetDamage();
-
         damage -= target.GetDefense(character.damageType);
 
         if (damage <= 0)

@@ -1,8 +1,9 @@
 using UnityEngine;
+using static Define;
 
 public class CharacterTurn : MonoBehaviour
 {
-    public Define.CharacterType characterType;
+    public CharacterType characterType;
 
     public bool canMove;
     public bool canAttack;
