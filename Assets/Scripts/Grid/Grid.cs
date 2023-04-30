@@ -124,6 +124,19 @@ public class Grid : MonoBehaviour
         return maxClimb > diff;
     }
 
+    public bool CheckAttackTarget(int posX, int posY, string tag)
+    {
+        if (grid[posX, posY].gridObject != null)
+        {
+            if (!grid[posX, posY].gridObject.CompareTag(tag))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public bool CheckPlacedObject(Vector2Int positionOnGrid)
     {
         return GetPlacedObject(positionOnGrid) != null;
@@ -139,6 +152,19 @@ public class Grid : MonoBehaviour
         if (CheckBoundry(positionOnGrid))
         {
             grid[positionOnGrid.x, positionOnGrid.y].gridObject = gridObject;
+            grid[positionOnGrid.x, positionOnGrid.y].passable = false;
+        }
+    }
+
+    public void RemoveObject(Vector2Int positionOnGrid, GridObject gridObject)
+    {
+        if (CheckBoundry(positionOnGrid))
+        {
+            if (gridObject == grid[positionOnGrid.x, positionOnGrid.y].gridObject)
+            {
+                grid[positionOnGrid.x, positionOnGrid.y].gridObject = null;
+                grid[positionOnGrid.x, positionOnGrid.y].passable = true;
+            }
         }
     }
 
@@ -192,19 +218,31 @@ public class Grid : MonoBehaviour
         return worldPositions;
     }
 
-    public void RemoveObject(Vector2Int positionOnGrid, GridObject gridObject)
+    public GridObject GetPeripheralPlayer(Vector2Int positionOnGrid)
     {
-        if (CheckBoundry(positionOnGrid))
+        Vector2Int pos = new Vector2Int();
+
+        for (int i = 0; i < 4; i++)
         {
-            grid[positionOnGrid.x, positionOnGrid.y].gridObject = null;
+            pos.x = positionOnGrid.x + dx[i];
+            pos.y = positionOnGrid.y + dy[i];
+
+            if (CheckBoundry(pos.x, pos.y))
+            {
+                if (grid[pos.x, pos.y].gridObject != null)
+                {
+                    if (grid[pos.x, pos.y].gridObject.gameObject.CompareTag("Player"))
+                    {
+                        return grid[pos.x, pos.y].gridObject;
+                    }
+                }
+            }
         }
-        else
-        {
-            Debug.Log("You trying to place the object outside the boundries!");
-        }
+
+        return null;
     }
 
-    public List<KeyValuePair<int, Vector2Int>> GetCharacterPeripheralPosition(Vector2Int positionOnGrid)
+    public List<KeyValuePair<int, Vector2Int>> GetPlayerPeripheralPosition(Vector2Int positionOnGrid)
     {
         List<KeyValuePair<int, Vector2Int>> targets = new List<KeyValuePair<int, Vector2Int>>();
 
@@ -212,32 +250,36 @@ public class Grid : MonoBehaviour
         {
             for (int y = 0; y < length; y++)
             {
-                if (grid[x, y].gridObject)
+                if (grid[x, y].gridObject != null)
                 {
-                    if (grid[x, y].gridObject.gameObject.CompareTag("Character"))
+                    if (grid[x, y].gridObject.gameObject.CompareTag("Player"))
                     {
                         int distance = Mathf.Abs(positionOnGrid.x - x) + Mathf.Abs(positionOnGrid.y - y);
 
                         for (int i = 0; i < 4; i++)
                         {
-                            Vector2Int pos = positionOnGrid;
+                            Vector2Int pos = new Vector2Int();
 
                             pos.x = grid[x, y].gridObject.positionOnGrid.x + dx[i];
                             pos.y = grid[x, y].gridObject.positionOnGrid.y + dy[i];
 
-                            if (!CheckBoundry(pos.x, pos.y) || !CheckWalkable(pos.x, pos.y) || CheckOccupied(pos))
+                            if (CheckBoundry(pos.x, pos.y))
                             {
-                                continue;
+                                if (!CheckOccupied(pos))
+                                {
+                                    if (CheckWalkable(pos.x, pos.y))
+                                    {
+                                        targets.Add(new KeyValuePair<int, Vector2Int>(distance, pos));
+                                    }
+                                }
                             }
-
-                            targets.Add(new KeyValuePair<int, Vector2Int>(distance, pos));
                         }
                     }
                 }
             }
         }
 
-        targets.Sort((x, y) => x.Key.CompareTo(y.Key));
+        targets.Sort((a, b) => a.Key.CompareTo(b.Key));
 
         return targets;
     }
