@@ -20,6 +20,16 @@ public class CharacterTurn : MonoBehaviour
         canAttack = true;
     }
 
+    public bool CheckEndTurn()
+    {
+        if (!canMove && !canAttack)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     private void AddToTurnManager()
     {
         TurnManager.Instance.Add(this);

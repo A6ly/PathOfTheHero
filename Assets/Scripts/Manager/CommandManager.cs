@@ -53,6 +53,7 @@ public class CommandManager : MonoBehaviour
         currentCommand = null;
         StageManager.Instance.ClearPathFinder();
         StageManager.Instance.ClearMoveHighlight();
+        TurnManager.Instance.CheckEndTurn();
     }
 
     private void AttackCommand()
@@ -64,6 +65,7 @@ public class CommandManager : MonoBehaviour
 
         currentCommand = null;
         StageManager.Instance.ClearAttackHighlight();
+        TurnManager.Instance.CheckEndTurn();
     }
 
     public void AddMoveCommand(Character character, Vector2Int selectedGrid, List<PathNode> path)

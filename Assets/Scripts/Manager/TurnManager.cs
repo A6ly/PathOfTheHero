@@ -55,16 +55,17 @@ public class TurnManager : MonoBehaviour
             case CharacterType.Player:
                 currentTurn = CharacterType.Enemy;
                 endTurnButton.SetActive(false);
+                gridObjectSelector.Deselect();
+                ResetTurnToContainer();
                 battleAI.StartBattle();
                 break;
             case CharacterType.Enemy:
                 currentTurn = CharacterType.Player;
                 endTurnButton.SetActive(true);
+                gridObjectSelector.Deselect();
+                ResetTurnToContainer();
                 break;
         }
-
-        gridObjectSelector.Deselect();
-        ResetTurnToContainer();
     }
 
     public bool CheckCurrentTurn(CharacterTurn character)
@@ -73,9 +74,20 @@ public class TurnManager : MonoBehaviour
         {
             return true;
         }
-        else
+
+        return false;
+    }
+
+    public void CheckEndTurn()
+    {
+        switch (currentTurn)
         {
-            return false;
+            case CharacterType.Player:
+                if (playerContainer.CheckEndTurn())
+                {
+                    NextTurn();
+                }
+                break;
         }
     }
 

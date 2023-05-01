@@ -36,4 +36,17 @@ public class CharacterContainer : MonoBehaviour
             characters[i].characterTurn.ResetTurn();
         }
     }
+
+    public bool CheckEndTurn()
+    {
+        for (int i = 0; i < characters.Count; i++)
+        {
+            if (!characters[i].characterTurn.CheckEndTurn())
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
