@@ -745,7 +745,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridObjectSelector: {fileID: 515878823}
   characterStatusWindow: {fileID: 1780716298}
-  monsterStatusWindow: {fileID: 919141751}
+  enemyStatusWindow: {fileID: 919141751}
 --- !u!114 &515878827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -957,7 +957,7 @@ GameObject:
   - component: {fileID: 919141754}
   - component: {fileID: 919141753}
   m_Layer: 5
-  m_Name: MonsterStatusWindow
+  m_Name: EnemyStatusWindow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -4,7 +4,7 @@ public class StatusWindow : MonoBehaviour
 {
     [SerializeField] GridObjectSelector gridObjectSelector;
     [SerializeField] GameObject characterStatusWindow;
-    [SerializeField] GameObject monsterStatusWindow;
+    [SerializeField] GameObject enemyStatusWindow;
 
     Character currentCharacter;
 
@@ -51,9 +51,9 @@ public class StatusWindow : MonoBehaviour
             characterStatusWindow.SetActive(true);
             isActive = true;
         }
-        else if (currentCharacter.CompareTag("Monster"))
+        else if (currentCharacter.CompareTag("Enemy"))
         {
-            monsterStatusWindow.SetActive(true);
+            enemyStatusWindow.SetActive(true);
             isActive = true;
         }
     }
@@ -61,7 +61,7 @@ public class StatusWindow : MonoBehaviour
     public void CloseWindow()
     {
         characterStatusWindow.SetActive(false);
-        monsterStatusWindow.SetActive(false);
+        enemyStatusWindow.SetActive(false);
         isActive = false;
     }
 }
