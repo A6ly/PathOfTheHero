@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using static Define;
 
@@ -14,11 +15,15 @@ public class TurnManager : MonoBehaviour
     [SerializeField] CharacterContainer playerContainer;
     [SerializeField] CharacterContainer enemyContainer;
     [SerializeField] GameObject endTurnButton;
+    [SerializeField] TMPro.TextMeshProUGUI currentTurnText;
+
     BattleAI battleAI;
 
     private void Start()
     {
         battleAI = enemyContainer.GetComponent<BattleAI>();
+
+        UpdateTextOnScreen();
     }
 
     public void Add(CharacterTurn character)
@@ -66,6 +71,8 @@ public class TurnManager : MonoBehaviour
                 ResetTurnToContainer();
                 break;
         }
+
+        UpdateTextOnScreen();
     }
 
     public bool CheckCurrentTurn(CharacterTurn character)
@@ -89,6 +96,11 @@ public class TurnManager : MonoBehaviour
                 }
                 break;
         }
+    }
+
+    private void UpdateTextOnScreen()
+    {
+        currentTurnText.text = $"Turn: {currentTurn}";
     }
 
     private void OnDestroy()
