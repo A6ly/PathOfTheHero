@@ -28,7 +28,7 @@ public class CommandManager : MonoBehaviour
         Instance = this;
     }
 
-    private Command currentCommand;
+    Command currentCommand;
 
     private void Update()
     {
