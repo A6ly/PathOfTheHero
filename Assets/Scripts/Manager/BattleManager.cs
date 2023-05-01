@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class BattleManager : MonoBehaviour
 {
+    public static BattleManager Instance { get; private set; }
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     List<Vector2Int> attackPosition;
 
     public void CalculateWalkableGround(Character character, bool isHighlight = true)
@@ -95,5 +102,10 @@ public class BattleManager : MonoBehaviour
         }
 
         return false;
+    }
+
+    private void OnDestroy()
+    {
+        Instance = null;
     }
 }

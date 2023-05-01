@@ -6,8 +6,6 @@ public class CommandInput : MonoBehaviour
 {
     [SerializeField] GridMousePointer gridMousePointer;
     [SerializeField] GridObjectSelector gridObjectSelector;
-    [SerializeField] BattleManager battleManager;
-    [SerializeField] CommandManager commandManager;
 
     CommandType currentCommand;
     bool isInputCommand;
@@ -24,10 +22,10 @@ public class CommandInput : MonoBehaviour
         switch (currentCommand)
         {
             case CommandType.Move:
-                battleManager.CalculateWalkableGround(gridObjectSelector.selected);
+                BattleManager.Instance.CalculateWalkableGround(gridObjectSelector.selected);
                 break;
             case CommandType.Attack:
-                battleManager.CalculateAttackArea(gridObjectSelector.selected.GetComponent<GridObject>().positionOnGrid, gridObjectSelector.selected.attackRange, gridObjectSelector.selected.tag);
+                BattleManager.Instance.CalculateAttackArea(gridObjectSelector.selected.GetComponent<GridObject>().positionOnGrid, gridObjectSelector.selected.attackRange, gridObjectSelector.selected.tag);
                 break;
         }
     }
@@ -62,11 +60,11 @@ public class CommandInput : MonoBehaviour
         {
             if (!StageManager.Instance.StageGrid.CheckPlacedObject(gridMousePointer.positionOnGrid))
             {
-                List<PathNode> path = battleManager.GetPath(gridMousePointer.positionOnGrid);
+                List<PathNode> path = BattleManager.Instance.GetPath(gridMousePointer.positionOnGrid);
 
                 if (path != null && path.Count > 0)
                 {
-                    commandManager.AddMoveCommand(gridObjectSelector.selected, gridMousePointer.positionOnGrid, path);
+                    CommandManager.Instance.AddMoveCommand(gridObjectSelector.selected, gridMousePointer.positionOnGrid, path);
                     StopCommandInput();
                 }
             }
@@ -82,20 +80,20 @@ public class CommandInput : MonoBehaviour
 
     private void AttackCommandInput()
     {
-        if(battleManager.CheckNoAttackablePosition())
+        if(BattleManager.Instance.CheckNoAttackablePosition())
         {
             StopCommandInput();
         }
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (battleManager.CheckAttackable(gridMousePointer.positionOnGrid))
+            if (BattleManager.Instance.CheckAttackable(gridMousePointer.positionOnGrid))
             {
-                GridObject gridObject = battleManager.GetAttackTarget(gridMousePointer.positionOnGrid);
+                GridObject gridObject = BattleManager.Instance.GetAttackTarget(gridMousePointer.positionOnGrid);
 
                 if (gridObject != null)
                 {
-                    commandManager.AddAttackCommand(gridObjectSelector.selected, gridMousePointer.positionOnGrid, gridObject);
+                    CommandManager.Instance.AddAttackCommand(gridObjectSelector.selected, gridMousePointer.positionOnGrid, gridObject);
                     StopCommandInput();
                 }
             }

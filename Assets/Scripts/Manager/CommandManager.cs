@@ -21,7 +21,14 @@ public class Command
 
 public class CommandManager : MonoBehaviour
 {
-    public Command currentCommand;
+    public static CommandManager Instance { get; private set; }
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    private Command currentCommand;
 
     private void Update()
     {
@@ -78,5 +85,10 @@ public class CommandManager : MonoBehaviour
     {
         currentCommand = new Command(attacker, selectGrid, CommandType.Attack);
         currentCommand.target = target;
+    }
+
+    private void OnDestroy()
+    {
+        Instance = null;
     }
 }

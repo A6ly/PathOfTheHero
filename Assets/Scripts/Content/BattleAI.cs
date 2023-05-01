@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class BattleAI : MonoBehaviour
 {
-    [SerializeField] BattleManager battleManager;
-
     public void StartBattle()
     {
         StartCoroutine(AutoBattle());
@@ -43,7 +41,7 @@ public class BattleAI : MonoBehaviour
 
                 if (targetGridObject != null && characterTurn.canAttack)
                 {
-                    battleManager.CalculateAttackArea(gridObject.positionOnGrid, character.attackRange, character.tag);
+                    BattleManager.Instance.CalculateAttackArea(gridObject.positionOnGrid, character.attackRange, character.tag);
 
                     yield return new WaitForSeconds(2.0f);
 
@@ -53,17 +51,17 @@ public class BattleAI : MonoBehaviour
                 }
                 else
                 {
-                    battleManager.CalculateWalkableGround(character, false);
+                    BattleManager.Instance.CalculateWalkableGround(character, false);
                     List<KeyValuePair<int, Vector2Int>> targets = StageManager.Instance.StageGrid.GetPlayerPeripheralPosition(positionOnGrid);
 
                     foreach (var target in targets)
                     {
                         Vector2Int targetPositionOnGrid = target.Value;
-                        List<PathNode> path = battleManager.GetPath(targetPositionOnGrid);
+                        List<PathNode> path = BattleManager.Instance.GetPath(targetPositionOnGrid);
 
                         if (path != null && characterTurn.canMove && characterTurn.canAttack)
                         {
-                            battleManager.CalculateWalkableGround(character, true);
+                            BattleManager.Instance.CalculateWalkableGround(character, true);
 
                             yield return new WaitForSeconds(2.0f);
 
@@ -74,7 +72,7 @@ public class BattleAI : MonoBehaviour
                                 yield return new WaitForSeconds(1.0f);
                             }
 
-                            battleManager.CalculateAttackArea(gridObject.positionOnGrid, character.attackRange, character.tag);
+                            BattleManager.Instance.CalculateAttackArea(gridObject.positionOnGrid, character.attackRange, character.tag);
 
                             yield return new WaitForSeconds(2.0f);
 
