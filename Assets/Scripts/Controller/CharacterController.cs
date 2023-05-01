@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 
 public class CharacterController : MonoBehaviour
 {
@@ -13,29 +12,11 @@ public class CharacterController : MonoBehaviour
 
     float moveSpeed = 1.0f;
 
-    public bool IS_MOVING
-    {
-        get
-        {
-            if (pathWorldPositions == null) 
-            { 
-                return false;
-            }
-
-            return pathWorldPositions.Count > 0;
-        }
-    }
-
     private void Awake()
     {
         gridObject = GetComponent<GridObject>();
         character = GetComponent<Character>();
         characterAnimator = GetComponent<CharacterAnimator>();
-    }
-
-    private void Update()
-    {
-        Moving();
     }
 
     private void RotateCharacter(Vector3 originPosition, Vector3 destinationPosition)
@@ -52,64 +33,46 @@ public class CharacterController : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(direction);
     }
 
-    public void SkipAnimation()
-    {
-        if (pathWorldPositions.Count < 2) 
-        { 
-            return;
-        }
-
-        transform.position = pathWorldPositions[pathWorldPositions.Count - 1];
-        Vector3 originPosition = pathWorldPositions[pathWorldPositions.Count - 2];
-        Vector3 destinationPosition = pathWorldPositions[pathWorldPositions.Count - 1];
-        RotateCharacter(originPosition, destinationPosition);
-        pathWorldPositions.Clear();
-        characterAnimator.StopMoving();
-    }
-
     public void Move(List<PathNode> path)
     {
-        if (IS_MOVING)
-        {
-            SkipAnimation();
-        }
-
         pathWorldPositions = StageManager.Instance.StageGrid.ConvertPathNodesToWorldPositions(path);
 
         StageManager.Instance.StageGrid.RemoveObject(gridObject.positionOnGrid, gridObject);
 
+        StartCoroutine(Moving());
+
         gridObject.positionOnGrid.x = path[path.Count - 1].posX;
         gridObject.positionOnGrid.y = path[path.Count - 1].posY;
-
-        StageManager.Instance.StageGrid.PlaceObject(gridObject.positionOnGrid, gridObject);
-
-        RotateCharacter(transform.position, pathWorldPositions[0]);
-
-        characterAnimator.StartMoving();
     }
 
-    private void Moving()
+    private IEnumerator Moving()
     {
-        if (pathWorldPositions == null || pathWorldPositions.Count == 0)
+        characterAnimator.StartMoving();
+
+        while (pathWorldPositions != null && pathWorldPositions.Count > 0)
         {
-            return;
-        }
-
-        transform.position = Vector3.MoveTowards(transform.position, pathWorldPositions[0], moveSpeed * Time.deltaTime);
-
-        if (Vector3.Distance(transform.position, pathWorldPositions[0]) < 0.05f)
-        {
-            pathWorldPositions.RemoveAt(0);
-
-            if (pathWorldPositions.Count == 0)
+            if (Vector3.Distance(transform.position, pathWorldPositions[0]) > 0.05f)
             {
-                characterAnimator.StopMoving();
+                transform.position = Vector3.MoveTowards(transform.position, pathWorldPositions[0], moveSpeed * Time.deltaTime);
             }
             else
             {
-                RotateCharacter(transform.position, pathWorldPositions[0]);
+                pathWorldPositions.RemoveAt(0);
+
+                if (pathWorldPositions.Count == 0)
+                {
+                    characterAnimator.StopMoving();
+                }
+                else
+                {
+                    RotateCharacter(transform.position, pathWorldPositions[0]);
+                }
             }
+
+            yield return null;
         }
+
+        StageManager.Instance.StageGrid.PlaceObject(gridObject.positionOnGrid, gridObject);
     }
 
     public void Attack(GridObject targetGridObject)
