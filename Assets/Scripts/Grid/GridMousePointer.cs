@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public class GridMousePointer : MonoBehaviour
 {
@@ -24,11 +25,13 @@ public class GridMousePointer : MonoBehaviour
             {
                 positionOnGrid = hitPosition;
                 UpdateMarker();
+                EffectManager.Instance.HighlightMarkerPointEffect(positionOnGrid);
             }
         }
         else
         {
             marker.SetActive(false);
+            EffectManager.Instance.HideMarkerPointEffect();
         }
     }
 

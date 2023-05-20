@@ -16,8 +16,6 @@ public class GridObjectSelector : MonoBehaviour
 
     GridObject hoverOverGridObject;
 
-    bool isSelected;
-
     Vector2Int positionOnGrid = new Vector2Int(-1, -1);
 
     private void Update()
@@ -29,17 +27,6 @@ public class GridObjectSelector : MonoBehaviour
 
         SelectObject();
         DeselectObject();
-    }
-
-    private void LateUpdate()
-    {
-        if (selected != null)
-        {
-            if (isSelected == false)
-            {
-                selected = null;
-            }
-        }
     }
 
     private void OnMouseOverObject()
@@ -75,10 +62,10 @@ public class GridObjectSelector : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (hoverOverCharacter != null && selected == null && TurnManager.Instance.CheckCurrentTurn(hoverOverCharacter.GetComponent<CharacterTurn>()))
+            if (hoverOverCharacter != null && selected == null && !CameraManager.Instance.isBattling && TurnManager.Instance.CheckCurrentTurn(hoverOverCharacter.GetComponent<CharacterTurn>()))
             {
                 selected = hoverOverCharacter;
-                isSelected = true;
+                EffectManager.Instance.HighlightPointEffect(selected.gridObject.positionOnGrid, selected.tag);
 
                 if (hoverOverCharacter.CompareTag("Player"))
                 {
@@ -92,7 +79,7 @@ public class GridObjectSelector : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1))
         {
-            selected = null;
+            Deselect();
 
             commandMenu.CloseMenu();
         }
@@ -100,6 +87,10 @@ public class GridObjectSelector : MonoBehaviour
 
     public void Deselect()
     {
-        isSelected = false;
+        if (selected != null)
+        {
+            EffectManager.Instance.HidePointEffect(selected.tag);
+            selected = null;
+        }
     }
 }
