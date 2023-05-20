@@ -6,6 +6,7 @@ public class CharacterAnimator : MonoBehaviour
 
     bool move;
     bool attack;
+    bool isDead;
 
     private void Awake()
     {
@@ -27,10 +28,21 @@ public class CharacterAnimator : MonoBehaviour
         attack = true;
     }
 
+    public void Flinch()
+    {
+        animator.SetTrigger("Flinch");
+    }
+
+    public void Dead()
+    {
+        isDead = true;
+    }
+
     private void LateUpdate()
     {
         animator.SetBool("Move", move);
         animator.SetBool("Attack", attack);
+        animator.SetBool("IsDead", isDead);
 
         if (attack == true)
         {
