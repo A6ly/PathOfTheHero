@@ -26,7 +26,7 @@ public class CharacterContainer : MonoBehaviour
         }
 
         characters.Add(new CharacterMember(characterTurn.GetComponent<Character>(), characterTurn));
-        characterTurn.transform.parent = transform;
+        characterTurn.transform.SetParent(transform);
     }
 
     public void ResetTurn()
@@ -42,6 +42,19 @@ public class CharacterContainer : MonoBehaviour
         for (int i = 0; i < characters.Count; i++)
         {
             if (!characters[i].characterTurn.CheckEndTurn())
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public bool CheckAllDead()
+    {
+        for (int i = 0; i < characters.Count; i++)
+        {
+            if (!characters[i].character.isDead)
             {
                 return false;
             }
