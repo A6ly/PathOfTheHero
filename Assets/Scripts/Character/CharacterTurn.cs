@@ -3,13 +3,17 @@ using static Define;
 
 public class CharacterTurn : MonoBehaviour
 {
+    Character character;
+
     public CharacterType characterType;
 
     public bool canMove;
     public bool canAttack;
+    public bool canSkill;
 
     private void Start()
     {
+        character = GetComponent<Character>();
         ResetTurn();
         AddToTurnManager();
     }
@@ -18,11 +22,12 @@ public class CharacterTurn : MonoBehaviour
     {
         canMove = true;
         canAttack = true;
+        canSkill = character.CheckSkillAvailability();
     }
 
     public bool CheckEndTurn()
     {
-        if (!canMove && !canAttack)
+        if (!canMove && !canAttack && !canSkill)
         {
             return true;
         }
