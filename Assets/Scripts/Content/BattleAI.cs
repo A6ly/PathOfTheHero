@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 
 public class BattleAI : MonoBehaviour
@@ -29,10 +28,20 @@ public class BattleAI : MonoBehaviour
     {
         for (int i = 0; i < transform.childCount; i++)
         {
+            if (TurnManager.Instance.isEndStage)
+            {
+                yield break;
+            }
+
             Character character = transform.GetChild(i).gameObject.GetComponent<Character>();
 
-            if (character != null)
+            if (character != null && character.gameObject.activeSelf)
             {
+                if (character.isDead)
+                {
+                    continue;
+                }
+
                 CharacterController characterController = character.GetComponent<CharacterController>();
                 CharacterTurn characterTurn = character.GetComponent<CharacterTurn>();
                 GridObject gridObject = character.GetComponent<GridObject>();
@@ -41,13 +50,15 @@ public class BattleAI : MonoBehaviour
 
                 if (targetGridObject != null && characterTurn.canAttack)
                 {
-                    BattleManager.Instance.CalculateAttackArea(gridObject.positionOnGrid, character.attackRange, character.tag);
+                    BattleManager.Instance.CalculateAttackArea(gridObject.positionOnGrid, character.stat.AttackRange, character.tag);
+                    EffectManager.Instance.HighlightPointEffect(gridObject.positionOnGrid, character.tag);
 
                     yield return new WaitForSeconds(2.0f);
 
+                    EffectManager.Instance.HidePointEffect(character.tag);
                     Attack(characterController, characterTurn, targetGridObject);
 
-                    yield return new WaitForSeconds(1.0f);
+                    yield return new WaitForSeconds(5.0f);
                 }
                 else
                 {
@@ -62,9 +73,11 @@ public class BattleAI : MonoBehaviour
                         if (path != null && characterTurn.canMove && characterTurn.canAttack)
                         {
                             BattleManager.Instance.CalculateWalkableGround(character, true);
+                            EffectManager.Instance.HighlightPointEffect(gridObject.positionOnGrid, character.tag);
 
                             yield return new WaitForSeconds(2.0f);
 
+                            EffectManager.Instance.HidePointEffect(character.tag);
                             Move(characterController, characterTurn, path);
                             Vector3 targetWorldPos = StageManager.Instance.StageGrid.GetWorldPosition(targetPositionOnGrid.x, targetPositionOnGrid.y, true);
                             while (Vector3.Distance(character.transform.position, targetWorldPos) > 0.1f)
@@ -72,14 +85,16 @@ public class BattleAI : MonoBehaviour
                                 yield return new WaitForSeconds(1.0f);
                             }
 
-                            BattleManager.Instance.CalculateAttackArea(gridObject.positionOnGrid, character.attackRange, character.tag);
+                            BattleManager.Instance.CalculateAttackArea(gridObject.positionOnGrid, character.stat.AttackRange, character.tag);
+                            EffectManager.Instance.HighlightPointEffect(gridObject.positionOnGrid, character.tag);
 
                             yield return new WaitForSeconds(2.0f);
 
+                            EffectManager.Instance.HidePointEffect(character.tag);
                             targetGridObject = StageManager.Instance.StageGrid.GetPeripheralPlayer(targetPositionOnGrid);
                             Attack(characterController, characterTurn, targetGridObject);
 
-                            yield return new WaitForSeconds(1.0f);
+                            yield return new WaitForSeconds(5.0f);
 
                             break;
                         }
