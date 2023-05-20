@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,95 +11,145 @@ public class CharacterController : MonoBehaviour
 
     List<Vector3> pathWorldPositions;
 
-    float moveSpeed = 1.0f;
+    bool isPlayer;
 
     private void Awake()
     {
         gridObject = GetComponent<GridObject>();
         character = GetComponent<Character>();
         characterAnimator = GetComponent<CharacterAnimator>();
+        isPlayer = gridObject.CompareTag("Player");
     }
 
     private void RotateCharacter(Vector3 originPosition, Vector3 destinationPosition)
     {
         Vector3 direction = (destinationPosition - originPosition).normalized;
         direction.y = 0;
-        transform.rotation = Quaternion.LookRotation(direction);
+        transform.DOLookAt(transform.position + direction, 0.25f).SetEase(Ease.InOutSine);
     }
 
     private void RotateCharacter(Vector3 towards)
     {
         Vector3 direction = (towards - transform.position).normalized;
         direction.y = 0;
-        transform.rotation = Quaternion.LookRotation(direction);
+        transform.DOLookAt(transform.position + direction, 0.15f).SetEase(Ease.InOutSine);
+    }
+
+    private void StartBattle()
+    {
+        if (isPlayer)
+        {
+            TurnManager.Instance.DisableEndTurnButton();
+        }
+
+        CameraManager.Instance.StartBattle(gridObject.gameObject);
+    }
+
+    private void EndBattle()
+    {
+        if (isPlayer)
+        {
+            TurnManager.Instance.EnableEndTurnButton();
+        }
+
+        TurnManager.Instance.CheckEndTurn();
+        CameraManager.Instance.EndBattle();
     }
 
     public void Move(List<PathNode> path)
     {
+        StartBattle();
+
         pathWorldPositions = StageManager.Instance.StageGrid.ConvertPathNodesToWorldPositions(path);
 
         StageManager.Instance.StageGrid.RemoveObject(gridObject.positionOnGrid, gridObject);
 
-        StartCoroutine(Moving());
-
         gridObject.positionOnGrid.x = path[path.Count - 1].posX;
         gridObject.positionOnGrid.y = path[path.Count - 1].posY;
+
+        StageManager.Instance.StageGrid.InvertPassable(gridObject.positionOnGrid);
+
+        StartCoroutine(Moving());
     }
 
     private IEnumerator Moving()
     {
         characterAnimator.StartMoving();
 
-        while (pathWorldPositions != null && pathWorldPositions.Count > 0)
+        for (int i = 0; i < pathWorldPositions.Count; i++)
         {
-            if (Vector3.Distance(transform.position, pathWorldPositions[0]) > 0.05f)
-            {
-                transform.position = Vector3.MoveTowards(transform.position, pathWorldPositions[0], moveSpeed * Time.deltaTime);
-            }
-            else
-            {
-                pathWorldPositions.RemoveAt(0);
+            RotateCharacter(transform.position, pathWorldPositions[i]);
 
-                if (pathWorldPositions.Count == 0)
-                {
-                    characterAnimator.StopMoving();
-                }
-                else
-                {
-                    RotateCharacter(transform.position, pathWorldPositions[0]);
-                }
-            }
-
-            yield return null;
+            yield return transform.DOMove(pathWorldPositions[i], 1f).SetEase(Ease.Linear).WaitForCompletion();
         }
 
+        characterAnimator.StopMoving();
+
         StageManager.Instance.StageGrid.PlaceObject(gridObject.positionOnGrid, gridObject);
+
+        EndBattle();
     }
 
     public void Attack(GridObject targetGridObject)
     {
+        StartBattle();
         StartCoroutine(Attacking(targetGridObject));
     }
 
     private IEnumerator Attacking(GridObject targetGridObject)
     {
         RotateCharacter(targetGridObject.transform.position);
+
+        yield return new WaitForSeconds(1.0f);
+
         characterAnimator.Attack();
 
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(0.1f);
 
         Character target = targetGridObject.GetComponent<Character>();
-
         int damage = character.GetDamage();
-        damage -= target.GetDefense(character.damageType);
 
-        if (damage <= 0)
+        if (Random.value <= character.stat.CriticalChance)
         {
-            damage = 1;
+            damage = (int)(damage * character.stat.CriticalDamageRatio);
         }
 
-        Debug.Log("target takes damage " + damage.ToString());
+        damage = Mathf.Max(damage - target.GetDefense(character.stat.DamageType), 0);
+        target.TakeDamage(damage);
+        EffectManager.Instance.PlayDamageEffect(targetGridObject.transform.position, damage.ToString(), character.tag);
 
-        //target.TakeDamage(damage);
+        yield return new WaitForSeconds(1.0f);
+
+        EndBattle();
+    }
+
+    public void Skill(GridObject targetGridObject)
+    {
+        StartBattle();
+        StartCoroutine(Skilling(targetGridObject));
+    }
+
+    private IEnumerator Skilling(GridObject targetGridObject)
+    {
+        RotateCharacter(targetGridObject.transform.position);
+
+        yield return new WaitForSeconds(1.0f);
+
+        characterAnimator.Attack();
+        character.UseMp();
+
+        EffectManager.Instance.PlaySkillEffect(character.transform.position, targetGridObject.transform.position, character.stat.SkillType);
+
+        yield return new WaitForSeconds(0.1f);
+
+        Character target = targetGridObject.GetComponent<Character>();
+        int damage = character.GetDamage() * character.stat.SkillDamageRatio;
+        damage = Mathf.Max(damage - target.GetDefense(character.stat.DamageType), 0);
+        target.TakeDamage(damage);
+        EffectManager.Instance.PlayDamageEffect(targetGridObject.transform.position, damage.ToString(), character.tag);
+
+        yield return new WaitForSeconds(1.0f);
+
+        EndBattle();
     }
 }
