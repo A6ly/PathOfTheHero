@@ -25,7 +25,10 @@ public class CommandInput : MonoBehaviour
                 BattleManager.Instance.CalculateWalkableGround(gridObjectSelector.selected);
                 break;
             case CommandType.Attack:
-                BattleManager.Instance.CalculateAttackArea(gridObjectSelector.selected.GetComponent<GridObject>().positionOnGrid, gridObjectSelector.selected.attackRange, gridObjectSelector.selected.tag);
+                BattleManager.Instance.CalculateAttackArea(gridObjectSelector.selected.GetComponent<GridObject>().positionOnGrid, gridObjectSelector.selected.stat.AttackRange, gridObjectSelector.selected.tag);
+                break;
+            case CommandType.Skill:
+                BattleManager.Instance.CalculateAttackArea(gridObjectSelector.selected.GetComponent<GridObject>().positionOnGrid, gridObjectSelector.selected.stat.AttackRange, gridObjectSelector.selected.tag);
                 break;
         }
     }
@@ -44,6 +47,9 @@ public class CommandInput : MonoBehaviour
                 break;
             case CommandType.Attack:
                 AttackCommandInput();
+                break;
+            case CommandType.Skill:
+                SkillCommandInput();
                 break;
         }
     }
@@ -94,6 +100,34 @@ public class CommandInput : MonoBehaviour
                 if (gridObject != null)
                 {
                     CommandManager.Instance.AddAttackCommand(gridObjectSelector.selected, gridMousePointer.positionOnGrid, gridObject);
+                    StopCommandInput();
+                }
+            }
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            StopCommandInput();
+            StageManager.Instance.ClearAttackHighlight();
+        }
+    }
+
+    private void SkillCommandInput()
+    {
+        if (BattleManager.Instance.CheckNoAttackablePosition())
+        {
+            StopCommandInput();
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (BattleManager.Instance.CheckAttackable(gridMousePointer.positionOnGrid))
+            {
+                GridObject gridObject = BattleManager.Instance.GetAttackTarget(gridMousePointer.positionOnGrid);
+
+                if (gridObject != null)
+                {
+                    CommandManager.Instance.AddSkillCommand(gridObjectSelector.selected, gridMousePointer.positionOnGrid, gridObject);
                     StopCommandInput();
                 }
             }
