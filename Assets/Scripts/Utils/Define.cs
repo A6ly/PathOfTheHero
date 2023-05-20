@@ -4,6 +4,7 @@ public class Define
     {
         Move,
         Attack,
+        Skill,
     }
 
     public enum CharacterType
@@ -15,11 +16,24 @@ public class Define
     public enum DamageType
     {
         Physical,
-        Magic,
+        Magical,
+    }
+
+    public enum SkillType
+    {
+        None,
+        ElectroSlash,
     }
 
     public enum Layer
     {
         Ground = 7,
+    }
+
+    public enum Sound
+    {
+        Bgm,
+        Effect,
+        Max,
     }
 }
