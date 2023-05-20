@@ -7,6 +7,7 @@ public class CommandMenu : MonoBehaviour
     [SerializeField] GameObject commandMenu;
     [SerializeField] GameObject moveButton;
     [SerializeField] GameObject attackButton;
+    [SerializeField] GameObject skillButton;
 
     CharacterTurn character;
 
@@ -17,6 +18,7 @@ public class CommandMenu : MonoBehaviour
         commandMenu.SetActive(true);
         moveButton.SetActive(character.canMove);
         attackButton.SetActive(character.canAttack);
+        skillButton.SetActive(character.canSkill);
     }
 
     public void CloseMenu()
@@ -41,6 +43,16 @@ public class CommandMenu : MonoBehaviour
         if (character.canAttack)
         {
             commandInput.SetCommandType(CommandType.Attack);
+            commandInput.InitCommand();
+            CloseMenu();
+        }
+    }
+
+    public void SkillCommand()
+    {
+        if (character.canSkill)
+        {
+            commandInput.SetCommandType(CommandType.Skill);
             commandInput.InitCommand();
             CloseMenu();
         }
