@@ -21,11 +21,30 @@ public class Command
 
 public class CommandManager : MonoBehaviour
 {
-    public static CommandManager Instance { get; private set; }
+    static CommandManager instance;
+    public static CommandManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<CommandManager>();
+            }
+
+            return instance;
+        }
+    }
 
     private void Awake()
     {
-        Instance = this;
+        if (instance != null && instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
     }
 
     Command currentCommand;
@@ -48,6 +67,9 @@ public class CommandManager : MonoBehaviour
             case CommandType.Attack:
                 AttackCommand();
                 break;
+            case CommandType.Skill:
+                SkillCommand();
+                break;
         }
     }
 
@@ -60,7 +82,6 @@ public class CommandManager : MonoBehaviour
         currentCommand = null;
         StageManager.Instance.ClearPathFinder();
         StageManager.Instance.ClearMoveHighlight();
-        TurnManager.Instance.CheckEndTurn();
     }
 
     private void AttackCommand()
@@ -72,7 +93,17 @@ public class CommandManager : MonoBehaviour
 
         currentCommand = null;
         StageManager.Instance.ClearAttackHighlight();
-        TurnManager.Instance.CheckEndTurn();
+    }
+
+    private void SkillCommand()
+    {
+        Character character = currentCommand.character;
+        character.GetComponent<CharacterController>().Skill(currentCommand.target);
+        character.GetComponent<CharacterTurn>().canSkill = false;
+        //victoryConditionManager.CheckPlayerVictory();
+
+        currentCommand = null;
+        StageManager.Instance.ClearAttackHighlight();
     }
 
     public void AddMoveCommand(Character character, Vector2Int selectedGrid, List<PathNode> path)
@@ -81,14 +112,15 @@ public class CommandManager : MonoBehaviour
         currentCommand.path = path;
     }
 
-    internal void AddAttackCommand(Character attacker, Vector2Int selectGrid, GridObject target)
+    public void AddAttackCommand(Character attacker, Vector2Int selectGrid, GridObject target)
     {
         currentCommand = new Command(attacker, selectGrid, CommandType.Attack);
         currentCommand.target = target;
     }
 
-    private void OnDestroy()
+    public void AddSkillCommand(Character attacker, Vector2Int selectGrid, GridObject target)
     {
-        Instance = null;
+        currentCommand = new Command(attacker, selectGrid, CommandType.Skill);
+        currentCommand.target = target;
     }
 }

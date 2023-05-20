@@ -4,11 +4,30 @@ using UnityEngine;
 
 public class BattleManager : MonoBehaviour
 {
-    public static BattleManager Instance { get; private set; }
+    static BattleManager instance;
+    public static BattleManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<BattleManager>();
+            }
+
+            return instance;
+        }
+    }
 
     private void Awake()
     {
-        Instance = this;
+        if (instance != null && instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
     }
 
     List<Vector2Int> attackPosition;
@@ -18,7 +37,7 @@ public class BattleManager : MonoBehaviour
         GridObject gridObject = character.GetComponent<GridObject>();
         List<PathNode> walkableNodes = new List<PathNode>();
         StageManager.Instance.PathFinder.Clear();
-        StageManager.Instance.PathFinder.CalculateWalkableNodes(gridObject.positionOnGrid.x, gridObject.positionOnGrid.y, character.movementPoints, ref walkableNodes);
+        StageManager.Instance.PathFinder.CalculateWalkableNodes(gridObject.positionOnGrid.x, gridObject.positionOnGrid.y, character.stat.MovementPoint, ref walkableNodes);
 
         if (isHighlight)
         {
@@ -102,10 +121,5 @@ public class BattleManager : MonoBehaviour
         }
 
         return false;
-    }
-
-    private void OnDestroy()
-    {
-        Instance = null;
     }
 }

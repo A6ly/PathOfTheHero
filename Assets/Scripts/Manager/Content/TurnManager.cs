@@ -1,27 +1,55 @@
-using Unity.VisualScripting;
+using DG.Tweening;
+using UnityEditor.PackageManager.UI;
 using UnityEngine;
 using static Define;
 
 public class TurnManager : MonoBehaviour
 {
-    public static TurnManager Instance { get; private set; }
+    static TurnManager instance;
+    public static TurnManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<TurnManager>();
+            }
+
+            return instance;
+        }
+    }
 
     private void Awake()
     {
-        Instance = this;
+        if (instance != null && instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
     }
+
+    public bool isEndStage;
 
     [SerializeField] GridObjectSelector gridObjectSelector;
     [SerializeField] CharacterContainer playerContainer;
     [SerializeField] CharacterContainer enemyContainer;
     [SerializeField] GameObject endTurnButton;
+    [SerializeField] GameObject stageClearWindow;
+    [SerializeField] GameObject gameOverWindow;
+    [SerializeField] LevelUpWindow levelUpWindow;
     [SerializeField] TMPro.TextMeshProUGUI currentTurnText;
 
     BattleAI battleAI;
 
+    CharacterType currentTurn;
+
     private void Start()
     {
         battleAI = enemyContainer.GetComponent<BattleAI>();
+        currentTurn = CharacterType.Player;
 
         UpdateTextOnScreen();
     }
@@ -37,8 +65,6 @@ public class TurnManager : MonoBehaviour
             enemyContainer.Add(character);
         }
     }
-
-    CharacterType currentTurn;
 
     private void ResetTurnToContainer()
     {
@@ -90,9 +116,28 @@ public class TurnManager : MonoBehaviour
         switch (currentTurn)
         {
             case CharacterType.Player:
-                if (playerContainer.CheckEndTurn())
+                if (enemyContainer.CheckAllDead())
+                {
+                    isEndStage = true;
+                    stageClearWindow.SetActive(true);
+                    Managers.Data.ClearStage(StageManager.Instance.CurrentStageNum);
+                    if (Managers.Data.AddExp(StageManager.Instance.CurrentStageExp))
+                    {
+                        levelUpWindow.gameObject.SetActive(true);
+                        levelUpWindow.UpdateLevelText(Managers.Data.UserData.UserLevel);
+                    }
+                    Managers.Data.Save();
+                }
+                else if (playerContainer.CheckEndTurn())
                 {
                     NextTurn();
+                }
+                break;
+            case CharacterType.Enemy:
+                if (playerContainer.CheckAllDead())
+                {
+                    isEndStage = true;
+                    gameOverWindow.SetActive(true);
                 }
                 break;
         }
@@ -103,8 +148,13 @@ public class TurnManager : MonoBehaviour
         currentTurnText.text = $"Turn: {currentTurn}";
     }
 
-    private void OnDestroy()
+    public void EnableEndTurnButton()
     {
-        Instance = null;
+        endTurnButton.SetActive(true);
+    }
+
+    public void DisableEndTurnButton()
+    {
+        endTurnButton.SetActive(false);
     }
 }
