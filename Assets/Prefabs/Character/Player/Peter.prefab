@@ -521,9 +521,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f6abfb76c5ef9549a1c91ccbdcef41a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementPoints: 50
-  attackRange: 1
-  damageType: 0
+  characterData: {fileID: 11400000, guid: 900f5ef8790db0b4ab6fc7feb7ff059a, type: 2}
+  isDead: 0
+  highlightPoint: {fileID: 0}
 --- !u!114 &7902734694979716969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -539,6 +539,7 @@ MonoBehaviour:
   characterType: 0
   canMove: 1
   canAttack: 1
+  canSkill: 0
 --- !u!114 &3907102690120200773
 MonoBehaviour:
   m_ObjectHideFlags: 0
