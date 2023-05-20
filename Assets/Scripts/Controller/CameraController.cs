@@ -15,6 +15,8 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
+        //if()
+
         MoveCamera();
         ZoomCamera();
     }
