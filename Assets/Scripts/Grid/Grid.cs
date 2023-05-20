@@ -68,6 +68,17 @@ public class Grid : MonoBehaviour
         }
     }
 
+    private void CalculateElevation(int posX, int posY)
+    {
+        Ray ray = new Ray(GetWorldPosition(posX, posY) + Vector3.up * 100f, Vector3.down);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, float.MaxValue, groundLayer))
+        {
+            grid[posX, posY].elevation = hit.point.y;
+        }
+    }
+
     private void CheckPassableGround()
     {
         for (int x = 0; x < length; x++)
@@ -79,6 +90,13 @@ public class Grid : MonoBehaviour
                 grid[x, y].passable = passable;
             }
         }
+    }
+
+    private void CheckPassableGround(int posX, int posY)
+    {
+        Vector3 worldPosition = GetWorldPosition(posX, posY);
+        bool passable = Physics.CheckBox(worldPosition, Vector3.one / 2 * cellSize, Quaternion.identity, groundLayer);
+        grid[posX, posY].passable = passable;
     }
 
     public bool CheckBoundry(Vector2Int positionOnGrid)
@@ -165,6 +183,14 @@ public class Grid : MonoBehaviour
                 grid[positionOnGrid.x, positionOnGrid.y].gridObject = null;
                 grid[positionOnGrid.x, positionOnGrid.y].passable = true;
             }
+        }
+    }
+
+    public void InvertPassable(Vector2Int positionOnGrid)
+    {
+        if (CheckBoundry(positionOnGrid))
+        {
+            grid[positionOnGrid.x, positionOnGrid.y].passable = !grid[positionOnGrid.x, positionOnGrid.y].passable;
         }
     }
 
@@ -282,5 +308,13 @@ public class Grid : MonoBehaviour
         targets.Sort((a, b) => a.Key.CompareTo(b.Key));
 
         return targets;
+    }
+
+    public void DeleteGridObject(int x, int y)
+    {
+        grid[x, y] = new Node();
+
+        CalculateElevation(x, y);
+        CheckPassableGround(x, y);
     }
 }
