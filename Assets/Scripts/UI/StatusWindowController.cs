@@ -1,10 +1,9 @@
 using UnityEngine;
 
-public class StatusWindow : MonoBehaviour
+public class StatusWindowController : MonoBehaviour
 {
     [SerializeField] GridObjectSelector gridObjectSelector;
-    [SerializeField] GameObject characterStatusWindow;
-    [SerializeField] GameObject enemyStatusWindow;
+    [SerializeField] StatusWindow characterStatusWindow;
 
     Character currentCharacter;
 
@@ -12,13 +11,18 @@ public class StatusWindow : MonoBehaviour
 
     private void Update()
     {
-        OnMouseOverObject();
+        if (!TurnManager.Instance.isEndStage)
+        {
+            OnMouseOverObject();
+        }
     }
 
     private void OnMouseOverObject()
     {
         if (isActive)
         {
+            characterStatusWindow.UpdateStatus(currentCharacter);
+
             if (gridObjectSelector.hoverOverCharacter == null)
             {
                 CloseWindow();
@@ -29,7 +33,7 @@ public class StatusWindow : MonoBehaviour
             if (gridObjectSelector.hoverOverCharacter != currentCharacter)
             {
                 currentCharacter = gridObjectSelector.hoverOverCharacter;
-                //statusPanel.UpdateStatus(currentCharacter);
+                characterStatusWindow.UpdateStatus(currentCharacter);
             }
         }
         else
@@ -46,22 +50,14 @@ public class StatusWindow : MonoBehaviour
 
     public void OpenWindow()
     {
-        if (currentCharacter.CompareTag("Player"))
-        {
-            characterStatusWindow.SetActive(true);
-            isActive = true;
-        }
-        else if (currentCharacter.CompareTag("Enemy"))
-        {
-            enemyStatusWindow.SetActive(true);
-            isActive = true;
-        }
+        characterStatusWindow.gameObject.SetActive(true);
+        isActive = true;
+        characterStatusWindow.UpdateStatus(currentCharacter);
     }
 
     public void CloseWindow()
     {
-        characterStatusWindow.SetActive(false);
-        enemyStatusWindow.SetActive(false);
+        characterStatusWindow.gameObject.SetActive(false);
         isActive = false;
     }
 }
