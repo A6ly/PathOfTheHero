@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static Define;
 
 public class CharacterMember
 {
@@ -15,7 +16,7 @@ public class CharacterMember
 
 public class CharacterContainer : MonoBehaviour
 {
-    public Define.CharacterType characterType;
+    public CharacterType characterType;
     public List<CharacterMember> characters;
 
     public void Add(CharacterTurn characterTurn)

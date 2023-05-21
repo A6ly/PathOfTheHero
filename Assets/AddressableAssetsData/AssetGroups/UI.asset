@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: UI
+  m_EditorClassIdentifier: 
+  m_GroupName: UI
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 3dbbf2e6ae919b54dbae7bd6eb6caead
+  m_SerializeEntries:
+  - m_GUID: e6f468f0f2317498fa03405a1517b00b
+    m_Address: CompleteButtonUI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b61d54ada442843bb81c0b4ae4c744fa
+    m_Address: DefaultStageButtonUI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 72f28ca191c2f4b18b6ace1d3a7ea55b
+    m_Address: LockStageButtonUI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 92885073c980349c2a786888bd70f710
+    m_Address: PhysicalTypeIconUI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 7c590330b56f5478fa08eebb283dff0c
+    m_Address: MagicalTypeIconUI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 4633ec301388a144b8ebd2d1210c1719, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 9712cac988f436f42aa147c75b0779dd, type: 2}
+    - {fileID: 11400000, guid: bab64ec68a88c63498d6c093426ce865, type: 2}

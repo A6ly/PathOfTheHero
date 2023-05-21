@@ -28,33 +28,40 @@ public class CommandMenu : MonoBehaviour
         commandMenu.SetActive(false);
     }
 
-    public void MoveCommand()
+    public void MoveButton()
     {
-        if (character.canMove)
-        {
-            commandInput.SetCommandType(CommandType.Move);
-            commandInput.InitCommand();
-            CloseMenu();
-        }
+        Managers.Sound.Play("Button01Effect", SoundType.Effect);
+
+        commandInput.SetCommandType(CommandType.Move);
+        commandInput.InitCommand();
+        CloseMenu();
     }
 
-    public void AttackCommand()
+    public void AttackButton()
     {
-        if (character.canAttack)
-        {
-            commandInput.SetCommandType(CommandType.Attack);
-            commandInput.InitCommand();
-            CloseMenu();
-        }
+        Managers.Sound.Play("Button01Effect", SoundType.Effect);
+
+        commandInput.SetCommandType(CommandType.Attack);
+        commandInput.InitCommand();
+        CloseMenu();
     }
 
-    public void SkillCommand()
+    public void SkillButton()
     {
-        if (character.canSkill)
-        {
-            commandInput.SetCommandType(CommandType.Skill);
-            commandInput.InitCommand();
-            CloseMenu();
-        }
+        Managers.Sound.Play("Button01Effect", SoundType.Effect);
+
+        commandInput.SetCommandType(CommandType.Skill);
+        commandInput.InitCommand();
+        CloseMenu();
+    }
+
+    public void CancelButton()
+    {
+        Managers.Sound.Play("Button01Effect", SoundType.Effect);
+    }
+
+    public void EndTurnButton()
+    {
+        Managers.Sound.Play("Button01Effect", SoundType.Effect);
     }
 }

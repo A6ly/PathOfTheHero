@@ -65,6 +65,9 @@ public class Character : MonoBehaviour
     public GridObject gridObject;
     public CharacterData characterData;
     public Stat stat;
+    public StepSoundType stepSoundType;
+    public AttackSoundType attackSoundType;
+    public SkillSoundType skillSoundType;
     public bool isDead = false;
 
     CharacterAnimator characterAnimator;
@@ -127,6 +130,7 @@ public class Character : MonoBehaviour
     {
         isDead = true;
         characterAnimator.Dead();
+        Managers.Sound.Play("DeadEffect", SoundType.Effect);
         StageManager.Instance.StageGrid.DeleteGridObject(gridObject.positionOnGrid.x, gridObject.positionOnGrid.y);
 
         yield return new WaitForSeconds(3.0f);

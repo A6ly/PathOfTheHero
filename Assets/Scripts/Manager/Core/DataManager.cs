@@ -1,27 +1,37 @@
 using System;
 using System.IO;
 using UnityEngine;
+using static Define;
 
 [Serializable]
 public class UserData
 {
-    public UserData(int _userLevel, int _userExp, int _currentStage, int _maxStage)
+    public UserData(int _userLevel, int _userExp, int _userMaxExp, int _currentStage, int _maxStage, float _effectVolume, float _bgmVolume)
     {
         userLevel = _userLevel;
         userExp = _userExp;
+        userMaxExp = _userMaxExp;
         currentStage = _currentStage;
         maxStage = _maxStage;
+        effectVolume = _effectVolume;
+        bgmVolume = _bgmVolume;
     }
 
     public int userLevel;
     public int userExp;
+    public int userMaxExp;
     public int currentStage;
     public int maxStage;
+    public float effectVolume;
+    public float bgmVolume;
 
     public int UserLevel { get { return userLevel; } }
     public int UserExp { get { return userExp; } }
+    public int UserMaxExp { get { return userMaxExp; } }
     public int CurrentStage { get { return currentStage; } }
     public int MaxStage { get { return currentStage; } }
+    public float EffectVolume { get { return effectVolume; } }
+    public float BgmVolume { get { return bgmVolume; } }
 }
 
 public class DataManager
@@ -35,7 +45,7 @@ public class DataManager
 
         if (UserData == null)
         {
-            UserData = new UserData(1, 0, 1, 10);
+            UserData = new UserData(1, 0, 500, 1, 10, 1.0f, 1.0f);
         }
     }
 
@@ -75,15 +85,26 @@ public class DataManager
     {
         UserData.userExp += exp;
 
-        if (UserData.userExp >= 500 * UserData.userLevel)
+        if (UserData.userExp >= UserData.userMaxExp)
         {
             UserData.userExp = 0;
             UserData.userLevel++;
+            UserData.userMaxExp += 500;
 
             return true;
         }
 
         return false;
+    }
+
+    public void SetEffectVolume(float volume)
+    {
+        UserData.effectVolume = volume;
+    }
+
+    public void SetBgmVolume(float volume)
+    {
+        UserData.bgmVolume = volume;
     }
 
     public void Save()
@@ -99,59 +120,4 @@ public class DataManager
         File.WriteAllText(saveFilePath, saveJson);
         Debug.Log("Save Success: " + saveFilePath);
     }
-
-    //int userLevel;
-    //int userExp;
-    //int currentStage;
-    //int maxStage;
-
-    //public int UserLevel { get { return userLevel; } }
-    //public int UserExp { get { return userExp; } }
-    //public int CurrentStage { get { return currentStage; } }
-    //public int MaxStage { get { return currentStage; } }
-
-    //public void Init()
-    //{
-    //    userLevel = PlayerPrefs.GetInt("UserLevel", 1);
-    //    userExp = PlayerPrefs.GetInt("UserExp", 0);
-    //    currentStage = PlayerPrefs.GetInt("CurrentStage", 1);
-    //    maxStage = PlayerPrefs.GetInt("MaxStage", 10);
-    //}
-
-    //public int CalculateBonusStat()
-    //{
-    //    int bonusStat = 10 * userLevel;
-
-    //    return bonusStat;
-    //}
-
-    //public void ClearStage(int stageNum)
-    //{
-    //    if (currentStage == stageNum && currentStage < maxStage)
-    //    {
-    //        currentStage++;
-    //    }
-    //}
-
-    //public bool AddExp(int exp)
-    //{
-    //    userExp += exp;
-
-    //    if (userExp >= 500 * userLevel)
-    //    {
-    //        userExp = 0;
-    //        userLevel++;
-
-    //        return true;
-    //    }
-
-    //    return false;
-    //}
-
-    //public void Save()
-    //{
-    //    PlayerPrefs.SetInt("UserLevel", userLevel);
-    //    PlayerPrefs.SetInt("UserExp", userExp);
-    //    PlayerPrefs.SetInt("CurrentStage", currentStage);
-    //}
 }

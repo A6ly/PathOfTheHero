@@ -25,15 +25,33 @@ public class Define
         ElectroSlash,
     }
 
-    public enum Layer
+    public enum LayerType
     {
         Ground = 7,
     }
 
-    public enum Sound
+    public enum SoundType
     {
         Bgm,
         Effect,
         Max,
+    }
+
+    public enum StepSoundType
+    {
+        GrassStepEffect,
+        SlimeStepEffect,
+    }
+
+    public enum AttackSoundType
+    {
+        AttackEffect,
+        HitEffect,
+    }
+
+    public enum SkillSoundType
+    {
+        SlashEffect,
+        ElectroEffect,
     }
 }

@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
+using static Define;
 
 public class GridObjectSelector : MonoBehaviour
 {
@@ -36,7 +38,14 @@ public class GridObjectSelector : MonoBehaviour
 
         if (hoverOverGridObject != null)
         {
-            hoverOverCharacter = hoverOverGridObject.GetComponent<Character>();
+            Character nextCharacter = hoverOverGridObject.GetComponent<Character>();
+
+            if (hoverOverCharacter != nextCharacter)
+            {
+                hoverOverCharacter = nextCharacter;
+
+                Managers.Sound.Play("HoverOverObjectEffect", SoundType.Effect);
+            }
         }
         else
         {
@@ -62,13 +71,14 @@ public class GridObjectSelector : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (hoverOverCharacter != null && selected == null && !CameraManager.Instance.isBattling && TurnManager.Instance.CheckCurrentTurn(hoverOverCharacter.GetComponent<CharacterTurn>()))
+            if (!EventSystem.current.IsPointerOverGameObject() && hoverOverCharacter != null && selected == null && !CameraManager.Instance.isBattling && TurnManager.Instance.CheckCurrentTurn(hoverOverCharacter.GetComponent<CharacterTurn>()))
             {
                 selected = hoverOverCharacter;
                 EffectManager.Instance.HighlightPointEffect(selected.gridObject.positionOnGrid, selected.tag);
 
                 if (hoverOverCharacter.CompareTag("Player"))
                 {
+                    Managers.Sound.Play("SelectObjectEffect", SoundType.Effect);
                     UpdateMenu();
                 }
             }

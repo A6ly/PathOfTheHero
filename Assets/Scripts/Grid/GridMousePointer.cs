@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.TextCore.Text;
+using static Define;
 
 public class GridMousePointer : MonoBehaviour
 {
@@ -9,7 +9,7 @@ public class GridMousePointer : MonoBehaviour
 
     [SerializeField] float elevation = 2.0f;
 
-    int groundLayerMask = (1 << (int)Define.Layer.Ground);
+    int groundLayerMask = (1 << (int)LayerType.Ground);
 
     private void Update()
     {

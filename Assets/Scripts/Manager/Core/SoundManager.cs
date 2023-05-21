@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using static Define;
 
 public class SoundManager
 {
-    AudioSource[] audioSources = new AudioSource[(int)Sound.Max];
+    AudioSource[] audioSources = new AudioSource[(int)SoundType.Max];
     Dictionary<string, AudioClip> audioClips = new Dictionary<string, AudioClip>();
 
     public void Init()
@@ -16,7 +17,7 @@ public class SoundManager
             soundRoot = new GameObject { name = "@SoundRoot" };
             Object.DontDestroyOnLoad(soundRoot);
 
-            string[] soundTypeNames = System.Enum.GetNames(typeof(Sound));
+            string[] soundTypeNames = System.Enum.GetNames(typeof(SoundType));
 
             for (int count = 0; count < soundTypeNames.Length - 1; count++)
             {
@@ -25,7 +26,9 @@ public class SoundManager
                 go.transform.SetParent(soundRoot.transform);
             }
 
-            audioSources[(int)Sound.Bgm].loop = true;
+            audioSources[(int)SoundType.Effect].volume = Managers.Data.UserData.EffectVolume;
+            audioSources[(int)SoundType.Bgm].volume = Managers.Data.UserData.BgmVolume;
+            audioSources[(int)SoundType.Bgm].loop = true;
         }
     }
 
@@ -40,46 +43,41 @@ public class SoundManager
         audioClips.Clear();
     }
 
-    AudioClip GetOrAddAudioClip(string path, Sound type = Sound.Effect)
+    AudioClip GetOrAddAudioClip(string key, SoundType type = SoundType.Effect)
     {
-        if (!path.Contains("Sounds/"))
-        {
-            path = $"Sounds/{path}";
-        }
-
         AudioClip audioClip = null;
 
-        if (type == Sound.Bgm)
+        if (type == SoundType.Bgm)
         {
-            audioClip = Resources.Load<AudioClip>(path);
+            audioClip = Addressables.LoadAssetAsync<AudioClip>(key).WaitForCompletion();
         }
         else
         {
-            if (!audioClips.TryGetValue(path, out audioClip))
+            if (!audioClips.TryGetValue(key, out audioClip))
             {
-                audioClip = Resources.Load<AudioClip>(path);
-                audioClips.Add(path, audioClip);
+                audioClip = Addressables.LoadAssetAsync<AudioClip>(key).WaitForCompletion();
+                audioClips.Add(key, audioClip);
             }
         }
 
         if (audioClip == null)
         {
-            Debug.Log($"AudioClip Missing ! {path}");
+            Debug.Log($"AudioClip Missing ! {key}");
         }
 
         return audioClip;
     }
 
-    public void Play(AudioClip audioClip, Sound type = Sound.Effect, float volume = 1.0f, float pitch = 1.0f)
+    public void Play(AudioClip audioClip, SoundType type = SoundType.Effect)
     {
         if (audioClip == null)
         {
             return;
         }
 
-        if (type == Sound.Bgm)
+        if (type == SoundType.Bgm)
         {
-            AudioSource audioSource = audioSources[(int)Sound.Bgm];
+            AudioSource audioSource = audioSources[(int)SoundType.Bgm];
 
             if (audioSource.isPlaying)
             {
@@ -89,45 +87,55 @@ public class SoundManager
                 }
                 else
                 {
+                    Addressables.Release(audioSource.clip);
                     audioSource.Stop();
                 }
             }
 
-            audioSource.volume = volume;
-            audioSource.pitch = pitch;
             audioSource.clip = audioClip;
             audioSource.Play();
         }
         else
         {
-            AudioSource audioSource = audioSources[(int)Sound.Effect];
-            audioSource.volume = volume;
-            audioSource.pitch = pitch;
+            AudioSource audioSource = audioSources[(int)SoundType.Effect];
             audioSource.PlayOneShot(audioClip);
         }
     }
 
-    public void Play(string path, Sound type = Sound.Effect, float volume = 1.0f, float pitch = 1.0f)
+    public void Play(string key, SoundType type = SoundType.Effect)
     {
-        AudioClip audioClip = GetOrAddAudioClip(path, type);
-        Play(audioClip, type, volume, pitch);
+        AudioClip audioClip = GetOrAddAudioClip(key, type);
+        Play(audioClip, type);
     }
 
     public void StopBgm()
     {
-        AudioSource audioSource = audioSources[(int)Sound.Bgm];
+        AudioSource audioSource = audioSources[(int)SoundType.Bgm];
+        Addressables.Release(audioSource.clip);
         audioSource.Stop();
     }
 
     public void PauseBgm()
     {
-        AudioSource audioSource = audioSources[(int)Sound.Bgm];
+        AudioSource audioSource = audioSources[(int)SoundType.Bgm];
         audioSource.Pause();
     }
 
     public void ResumeBgm()
     {
-        AudioSource audioSource = audioSources[(int)Sound.Bgm];
+        AudioSource audioSource = audioSources[(int)SoundType.Bgm];
         audioSource.Play();
+    }
+
+    public void SetEffectVolume(float volume)
+    {
+        audioSources[(int)SoundType.Effect].volume = volume;
+        Managers.Data.SetEffectVolume(volume);
+    }
+
+    public void SetBgmVolume(float volume)
+    {
+        audioSources[(int)SoundType.Bgm].volume = volume;
+        Managers.Data.SetBgmVolume(volume);
     }
 }

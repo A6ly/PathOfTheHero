@@ -403,9 +403,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f6abfb76c5ef9549a1c91ccbdcef41a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridObject: {fileID: 0}
   characterData: {fileID: 11400000, guid: ec882108c2768d64d8fe8467f68648d3, type: 2}
+  stepSoundType: 1
+  attackSoundType: 1
+  skillSoundType: 0
   isDead: 0
-  highlightPoint: {fileID: 0}
 --- !u!114 &5645963870216092664
 MonoBehaviour:
   m_ObjectHideFlags: 0

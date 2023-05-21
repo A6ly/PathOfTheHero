@@ -1,4 +1,5 @@
 using UnityEngine;
+using static Define;
 
 public class StageManager : MonoBehaviour
 {
@@ -43,6 +44,11 @@ public class StageManager : MonoBehaviour
         CurrentStageName = gameObject.scene.name;
         CurrentStageNum = int.Parse(CurrentStageName.Substring(CurrentStageName.Length - 2));
         CurrentStageExp = CurrentStageNum * 500;
+    }
+
+    private void Start()
+    {
+        Managers.Sound.Play("Battle01Bgm", SoundType.Bgm);
     }
 
     public void ClearPathFinder()

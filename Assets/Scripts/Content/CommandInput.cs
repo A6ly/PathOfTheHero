@@ -70,6 +70,7 @@ public class CommandInput : MonoBehaviour
 
                 if (path != null && path.Count > 0)
                 {
+                    Managers.Sound.Play("GridClickEffect", SoundType.Effect);
                     CommandManager.Instance.AddMoveCommand(gridObjectSelector.selected, gridMousePointer.positionOnGrid, path);
                     StopCommandInput();
                 }
@@ -99,6 +100,7 @@ public class CommandInput : MonoBehaviour
 
                 if (gridObject != null)
                 {
+                    Managers.Sound.Play("GridClickEffect", SoundType.Effect);
                     CommandManager.Instance.AddAttackCommand(gridObjectSelector.selected, gridMousePointer.positionOnGrid, gridObject);
                     StopCommandInput();
                 }
@@ -127,6 +129,7 @@ public class CommandInput : MonoBehaviour
 
                 if (gridObject != null)
                 {
+                    Managers.Sound.Play("GridClickEffect", SoundType.Effect);
                     CommandManager.Instance.AddSkillCommand(gridObjectSelector.selected, gridMousePointer.positionOnGrid, gridObject);
                     StopCommandInput();
                 }

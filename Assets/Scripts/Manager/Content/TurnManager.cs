@@ -120,12 +120,19 @@ public class TurnManager : MonoBehaviour
                 {
                     isEndStage = true;
                     stageClearWindow.SetActive(true);
+                    Managers.Sound.StopBgm();
                     Managers.Data.ClearStage(StageManager.Instance.CurrentStageNum);
                     if (Managers.Data.AddExp(StageManager.Instance.CurrentStageExp))
                     {
                         levelUpWindow.gameObject.SetActive(true);
                         levelUpWindow.UpdateLevelText(Managers.Data.UserData.UserLevel);
+                        Managers.Sound.Play("LevelUpEffect", SoundType.Effect);
                     }
+                    else
+                    {
+                        Managers.Sound.Play("StageClearEffect", SoundType.Effect);
+                    }
+
                     Managers.Data.Save();
                 }
                 else if (playerContainer.CheckEndTurn())
@@ -138,6 +145,8 @@ public class TurnManager : MonoBehaviour
                 {
                     isEndStage = true;
                     gameOverWindow.SetActive(true);
+                    Managers.Sound.StopBgm();
+                    Managers.Sound.Play("GameOverEffect", SoundType.Effect);
                 }
                 break;
         }
@@ -145,7 +154,7 @@ public class TurnManager : MonoBehaviour
 
     private void UpdateTextOnScreen()
     {
-        currentTurnText.text = $"Turn: {currentTurn}";
+        currentTurnText.text = $"{currentTurn}\nTurn";
     }
 
     public void EnableEndTurnButton()

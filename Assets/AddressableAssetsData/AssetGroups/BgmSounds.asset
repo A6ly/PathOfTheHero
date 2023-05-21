@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: BgmSounds
+  m_EditorClassIdentifier: 
+  m_GroupName: BgmSounds
+  m_Data:
+    m_SerializedData: []
+  m_GUID: ce8d2eb4c0cd3ba4fa448b6d308effbc
+  m_SerializeEntries:
+  - m_GUID: 40ac39dff6e2f354f81de00e760e72fd
+    m_Address: MainBgm
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c6c5cd0ee2d7db447be3ac0e13978c23
+    m_Address: Battle01Bgm
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 4633ec301388a144b8ebd2d1210c1719, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 8bd4bd01c756c754fac346eb5672a077, type: 2}
+    - {fileID: 11400000, guid: 7de870b11e2edb34faaa83c56aa17d3b, type: 2}

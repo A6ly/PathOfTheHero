@@ -45,9 +45,11 @@ public class CameraManager : MonoBehaviour
 
     GameObject targetObj;
 
+    bool isPause = false;
+
     private void LateUpdate()
     {
-        if (isBattling)
+        if (isBattling && !isPause)
         {
             transform.DOLookAt(targetObj.transform.position, 0.25f).SetEase(Ease.Linear);
         }
@@ -69,6 +71,16 @@ public class CameraManager : MonoBehaviour
         transform.DORotate(defaultRot, 0.25f).SetEase(Ease.Linear);
 
         isBattling = false;
+    }
+
+    public void PauseBattle()
+    {
+        isPause = true;
+    }
+
+    public void ResumeBattle()
+    {
+        isPause = false;
     }
 
     private void MoveCamera()
