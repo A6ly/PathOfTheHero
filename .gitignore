@@ -79,3 +79,10 @@ crashlytics-build.properties
 /[Aa]ssets/Shaders
 /[Aa]ssets/Store
 /[Aa]ssets/Textures
+/[Aa]ssets/Audio.meta
+/[Aa]ssets/Fonts.meta
+/[Aa]ssets/Materials.meta
+/[Aa]ssets/Models.meta
+/[Aa]ssets/Shaders.meta
+/[Aa]ssets/Store.meta
+/[Aa]ssets/Textures.meta
