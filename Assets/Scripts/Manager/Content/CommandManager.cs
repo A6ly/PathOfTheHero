@@ -89,7 +89,6 @@ public class CommandManager : MonoBehaviour
         Character character = currentCommand.character;
         character.GetComponent<CharacterController>().Attack(currentCommand.target);
         character.GetComponent<CharacterTurn>().canAttack = false;
-        //victoryConditionManager.CheckPlayerVictory();
 
         currentCommand = null;
         StageManager.Instance.ClearAttackHighlight();
@@ -100,7 +99,6 @@ public class CommandManager : MonoBehaviour
         Character character = currentCommand.character;
         character.GetComponent<CharacterController>().Skill(currentCommand.target);
         character.GetComponent<CharacterTurn>().canSkill = false;
-        //victoryConditionManager.CheckPlayerVictory();
 
         currentCommand = null;
         StageManager.Instance.ClearAttackHighlight();

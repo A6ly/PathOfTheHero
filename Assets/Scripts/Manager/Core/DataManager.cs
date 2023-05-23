@@ -1,18 +1,19 @@
 using System;
 using System.IO;
 using UnityEngine;
-using static Define;
+using UnityEngine.Localization.Settings;
 
 [Serializable]
 public class UserData
 {
-    public UserData(int _userLevel, int _userExp, int _userMaxExp, int _currentStage, int _maxStage, float _effectVolume, float _bgmVolume)
+    public UserData(int _userLevel, int _userExp, int _userMaxExp, int _currentStage, int _maxStage, int _currentLanguage, float _effectVolume, float _bgmVolume)
     {
         userLevel = _userLevel;
         userExp = _userExp;
         userMaxExp = _userMaxExp;
         currentStage = _currentStage;
         maxStage = _maxStage;
+        currentLanguage = _currentLanguage;
         effectVolume = _effectVolume;
         bgmVolume = _bgmVolume;
     }
@@ -22,6 +23,7 @@ public class UserData
     public int userMaxExp;
     public int currentStage;
     public int maxStage;
+    public int currentLanguage;
     public float effectVolume;
     public float bgmVolume;
 
@@ -29,7 +31,8 @@ public class UserData
     public int UserExp { get { return userExp; } }
     public int UserMaxExp { get { return userMaxExp; } }
     public int CurrentStage { get { return currentStage; } }
-    public int MaxStage { get { return currentStage; } }
+    public int MaxStage { get { return maxStage; } }
+    public int CurrentLanguage { get { return currentLanguage; } }
     public float EffectVolume { get { return effectVolume; } }
     public float BgmVolume { get { return bgmVolume; } }
 }
@@ -45,8 +48,11 @@ public class DataManager
 
         if (UserData == null)
         {
-            UserData = new UserData(1, 0, 500, 1, 10, 1.0f, 1.0f);
+            UserData = new UserData(1, 0, 500, 1, 21, 0, 1.0f, 1.0f);
         }
+
+        LocalizationSettings.InitializationOperation.WaitForCompletion();   // ·Îµù¾À?
+        LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[UserData.CurrentLanguage];
     }
 
     public UserData Load()
@@ -105,6 +111,12 @@ public class DataManager
     public void SetBgmVolume(float volume)
     {
         UserData.bgmVolume = volume;
+    }
+
+    public void SetLocalization(int index)
+    {
+        UserData.currentLanguage = index;
+        LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[index];
     }
 
     public void Save()

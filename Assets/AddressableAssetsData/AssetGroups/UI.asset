@@ -37,6 +37,10 @@ MonoBehaviour:
     m_Address: MagicalTypeIconUI
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 628fb358393e6492eb92424c9f20a05a
+    m_Address: LastStageButtonUI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 4633ec301388a144b8ebd2d1210c1719, type: 2}
   m_SchemaSet:

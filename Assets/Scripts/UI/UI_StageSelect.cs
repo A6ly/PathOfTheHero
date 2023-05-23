@@ -9,6 +9,7 @@ public class UI_StageSelect : MonoBehaviour
     Sprite completeStageButton;
     Sprite defaultStageButton;
     Sprite lockStageButton;
+    Sprite lastStageButton;
     StageButton[] buttons;
 
     private void Awake()
@@ -16,6 +17,7 @@ public class UI_StageSelect : MonoBehaviour
         completeStageButton = Addressables.LoadAssetAsync<Sprite>("CompleteButtonUI").WaitForCompletion();
         defaultStageButton = Addressables.LoadAssetAsync<Sprite>("DefaultStageButtonUI").WaitForCompletion();
         lockStageButton = Addressables.LoadAssetAsync<Sprite>("LockStageButtonUI").WaitForCompletion();
+        lastStageButton = Addressables.LoadAssetAsync<Sprite>("LastStageButtonUI").WaitForCompletion();
     }
 
     private void Start()
@@ -30,6 +32,22 @@ public class UI_StageSelect : MonoBehaviour
 
         foreach (StageButton button in buttons)
         {
+            if (button.stageNum == Managers.Data.UserData.MaxStage)
+            {
+                if (button.stageNum == Managers.Data.UserData.CurrentStage)
+                {
+                    button.GetComponent<Button>().interactable = true;
+                    button.GetComponent<Image>().sprite = lastStageButton;
+                }
+                else
+                {
+                    button.GetComponent<Button>().interactable = false;
+                    button.GetComponent<Image>().sprite = lastStageButton;
+                }
+                
+                continue;
+            }
+
             if (button.stageNum < Managers.Data.UserData.CurrentStage)
             {
                 button.GetComponent<Button>().interactable = true;
@@ -76,6 +94,11 @@ public class UI_StageSelect : MonoBehaviour
         if (lockStageButton != null)
         {
             Addressables.Release(lockStageButton);
+        }
+
+        if (lastStageButton != null)
+        {
+            Addressables.Release(lastStageButton);
         }
     }
 

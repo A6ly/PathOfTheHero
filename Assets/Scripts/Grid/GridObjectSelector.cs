@@ -45,11 +45,14 @@ public class GridObjectSelector : MonoBehaviour
                 hoverOverCharacter = nextCharacter;
 
                 Managers.Sound.Play("HoverOverObjectEffect", SoundType.Effect);
+                Managers.Cursor.SetHandCursor();
             }
         }
         else
         {
             hoverOverCharacter = null;
+
+            Managers.Cursor.SetBasicCursor();
         }
     }
 

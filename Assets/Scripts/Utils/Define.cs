@@ -13,6 +13,13 @@ public class Define
         Enemy,
     }
 
+    public enum CursorType
+    {
+        None,
+        Basic,
+        Hand,
+    }
+
     public enum DamageType
     {
         Physical,

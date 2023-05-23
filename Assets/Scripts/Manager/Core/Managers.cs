@@ -8,10 +8,12 @@ public class Managers : MonoBehaviour
     DataManager dataManager = new DataManager();
     SoundManager soundManager = new SoundManager();
     PoolManager poolManager = new PoolManager();
+    CursorManager cursorManager = new CursorManager();
 
     public static DataManager Data { get { return Instance.dataManager; } }
     public static SoundManager Sound { get { return Instance.soundManager; } }
     public static PoolManager Pool { get { return Instance.poolManager; } }
+    public static CursorManager Cursor { get { return Instance.cursorManager; } }
 
     private void Start()
     {
@@ -35,6 +37,7 @@ public class Managers : MonoBehaviour
             instance.dataManager.Init();
             instance.soundManager.Init();
             instance.poolManager.Init();
+            instance.cursorManager.Init();
         }
     }
 

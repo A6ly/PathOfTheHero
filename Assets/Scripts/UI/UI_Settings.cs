@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using static Define;
@@ -8,6 +6,8 @@ public class UI_Settings : MonoBehaviour
 {
     [SerializeField] Slider effectSoundBar;
     [SerializeField] Slider BgmSoundBar;
+    [SerializeField] Button englishButton;
+    [SerializeField] Button koreanButton;
 
     private void Start()
     {
@@ -16,12 +16,22 @@ public class UI_Settings : MonoBehaviour
 
         effectSoundBar.onValueChanged.AddListener(SetEffectVolume);
         BgmSoundBar.onValueChanged.AddListener(SetBgmVolume);
+        englishButton.onClick.AddListener(() => SetLocalization(0));
+        koreanButton.onClick.AddListener(() => SetLocalization(1));
+
+        SetLanguageButtons();
     }
 
     public void CloseButton()
     {
         Managers.Sound.Play("Button01Effect", SoundType.Effect);
         gameObject.SetActive(false);
+    }
+
+    public void SaveButton()
+    {
+        Managers.Sound.Play("Button01Effect", SoundType.Effect);
+        Managers.Data.Save();
     }
 
     private void SetEffectVolume(float volume)
@@ -32,5 +42,25 @@ public class UI_Settings : MonoBehaviour
     private void SetBgmVolume(float volume)
     {
         Managers.Sound.SetBgmVolume(volume);
+    }
+
+    private void SetLanguageButtons() 
+    {
+        if (Managers.Data.UserData.CurrentLanguage == 0)
+        {
+            englishButton.interactable = false;
+            koreanButton.interactable = true;
+        }
+        else if (Managers.Data.UserData.CurrentLanguage == 1)
+        {
+            englishButton.interactable = true;
+            koreanButton.interactable = false;
+        }
+    }
+
+    private void SetLocalization(int index)
+    {
+        Managers.Data.SetLocalization(index);
+        SetLanguageButtons();
     }
 }
