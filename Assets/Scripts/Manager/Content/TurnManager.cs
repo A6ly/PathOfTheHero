@@ -1,4 +1,8 @@
+using DG.Tweening;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Localization.Settings;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using static Define;
 
 public class TurnManager : MonoBehaviour
@@ -36,9 +40,11 @@ public class TurnManager : MonoBehaviour
     [SerializeField] CharacterContainer enemyContainer;
     [SerializeField] GameObject endTurnButton;
     [SerializeField] GameObject stageClearWindow;
+    [SerializeField] GameObject lastStageClearWindow;
     [SerializeField] GameObject gameOverWindow;
     [SerializeField] LevelUpWindow levelUpWindow;
-    [SerializeField] TMPro.TextMeshProUGUI currentTurnText;
+    [SerializeField] TextMeshProUGUI currentTurnText;
+    [SerializeField] GameObject playerTurnText;
 
     BattleAI battleAI;
 
@@ -93,6 +99,7 @@ public class TurnManager : MonoBehaviour
                 endTurnButton.SetActive(true);
                 gridObjectSelector.Deselect();
                 ResetTurnToContainer();
+                ShowPlayerTurnText();
                 break;
         }
 
@@ -117,9 +124,20 @@ public class TurnManager : MonoBehaviour
                 if (enemyContainer.CheckAllDead())
                 {
                     isEndStage = true;
-                    stageClearWindow.SetActive(true);
+
                     Managers.Sound.StopBgm();
+
+                    if (Managers.Data.UserData.MaxStage != StageManager.Instance.CurrentStageNum)
+                    {
+                        stageClearWindow.SetActive(true);
+                    }
+                    else
+                    {
+                        lastStageClearWindow.SetActive(true);
+                    }
+
                     Managers.Data.ClearStage(StageManager.Instance.CurrentStageNum);
+
                     if (Managers.Data.AddExp(StageManager.Instance.CurrentStageExp))
                     {
                         levelUpWindow.gameObject.SetActive(true);
@@ -152,7 +170,33 @@ public class TurnManager : MonoBehaviour
 
     private void UpdateTextOnScreen()
     {
-        currentTurnText.text = $"{currentTurn}\nTurn";
+        string localizationKey = "";
+
+        switch (currentTurn)
+        {
+            case CharacterType.Player:
+                localizationKey = "PlayerTurn_key";
+                break;
+            case CharacterType.Enemy:
+                localizationKey = "EnemyTurn_key";
+                break;
+        }
+
+        var stringOperation = LocalizationSettings.StringDatabase.GetLocalizedStringAsync("TextTable", localizationKey);
+        if (stringOperation.IsDone && stringOperation.Status == AsyncOperationStatus.Succeeded)
+        {
+            currentTurnText.text = stringOperation.Result;
+        }
+    }
+
+    private void ShowPlayerTurnText()
+    {
+        Managers.Sound.Play("NoticeEffect", SoundType.Effect);
+
+        DOTween.Sequence()
+        .AppendCallback(() => playerTurnText.SetActive(true))
+        .AppendInterval(3f)
+        .AppendCallback(() => playerTurnText.SetActive(false));
     }
 
     public void EnableEndTurnButton()

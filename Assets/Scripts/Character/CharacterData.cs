@@ -8,6 +8,7 @@ public class CharacterData : ScriptableObject
     [SerializeField] DamageType damageType;
     [SerializeField] float movementPoint = 50.0f;
     [SerializeField] int attackRange = 1;
+    [SerializeField] int skillRange = 1;
     [SerializeField] int strength = 10;
     [SerializeField] int intelligence = 10;
     [SerializeField] int defense = 1;
@@ -24,6 +25,7 @@ public class CharacterData : ScriptableObject
     public DamageType ClassType { get { return damageType; } }
     public float MovementPoint { get { return movementPoint; } }
     public int AttackRange { get { return attackRange; } }
+    public int SkillRange { get { return skillRange; } }
     public int Strength { get { return strength; } }
     public int Intelligence { get { return intelligence; } }
     public int Defense { get { return defense; } }

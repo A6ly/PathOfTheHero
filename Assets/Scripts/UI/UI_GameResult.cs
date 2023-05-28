@@ -22,10 +22,11 @@ public class UI_GameResult : MonoBehaviour
         SceneManager.LoadScene(StageManager.Instance.CurrentStageName, LoadSceneMode.Additive);
     }
 
-    public void Exit()
+    public void Quit()
     {
         Managers.Sound.Play("Button01Effect", SoundType.Effect);
         DOTween.KillAll();
+        Managers.Pool.Clear();
         SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
     }
 }

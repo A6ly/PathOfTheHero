@@ -25,6 +25,18 @@ MonoBehaviour:
     m_Address: Battle01Bgm
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 25003d8a689eefd41a89a886c4d9cc9a
+    m_Address: Battle02Bgm
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: fb273957e7edc6a4fb4bc7a4449bd241
+    m_Address: Battle03Bgm
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 3f9d2a49059160546818cd858b1adc43
+    m_Address: Battle04Bgm
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 4633ec301388a144b8ebd2d1210c1719, type: 2}
   m_SchemaSet:

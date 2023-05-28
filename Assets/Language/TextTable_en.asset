@@ -22,6 +22,161 @@ MonoBehaviour:
     m_Localized: Start
     m_Metadata:
       m_Items: []
+  - m_Id: 223603785728
+    m_Localized: PLAY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 325841604247552
+    m_Localized: SETTINGS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 326037528576000
+    m_Localized: EXIT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 326781094789120
+    m_Localized: Main Menu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 327328166248448
+    m_Localized: Attack
+    m_Metadata:
+      m_Items: []
+  - m_Id: 327285317238784
+    m_Localized: Move
+    m_Metadata:
+      m_Items: []
+  - m_Id: 327362760867840
+    m_Localized: Skill
+    m_Metadata:
+      m_Items: []
+  - m_Id: 327688066891776
+    m_Localized: Cancel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 328705441464320
+    m_Localized: 'Player
+
+      Turn'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 328806805209088
+    m_Localized: 'Enemy
+
+      Turn'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 337005994246144
+    m_Localized: RETRY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 337143391256576
+    m_Localized: RESUME
+    m_Metadata:
+      m_Items: []
+  - m_Id: 337516482985984
+    m_Localized: QUIT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 341141670264832
+    m_Localized: Effect Sound
+    m_Metadata:
+      m_Items: []
+  - m_Id: 341196422709248
+    m_Localized: BGM
+    m_Metadata:
+      m_Items: []
+  - m_Id: 341268032061440
+    m_Localized: English
+    m_Metadata:
+      m_Items: []
+  - m_Id: 341298126192640
+    m_Localized: Korean
+    m_Metadata:
+      m_Items: []
+  - m_Id: 346728722268160
+    m_Localized: 'STR:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 346931869188096
+    m_Localized: 'INT:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 347075184361472
+    m_Localized: 'DEF:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 347183330295808
+    m_Localized: 'RES:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 347285402877952
+    m_Localized: 'Attack Range:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 349154888056832
+    m_Localized: END TURN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 718534167691264
+    m_Localized: 'Skill Range:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 724550825476096
+    m_Localized: No enemies within range!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1066561039806464
+    m_Localized: Player Turn!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1723720148758528
+    m_Localized: STAGE CLEAR
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1724067726536704
+    m_Localized: VICTORY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1724237822341120
+    m_Localized: REWARDS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1724643805802496
+    m_Localized: Experience Increase!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1724954855387136
+    m_Localized: Next Stage
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1725880450199552
+    m_Localized: Game Over...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1726060390035456
+    m_Localized: LOSE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1726369703178240
+    m_Localized: 'Come back stronger...
+
+      You can earn experience points even
+      on stages that you have already cleared!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1726928866816000
+    m_Localized: LEVEL
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1779588072517632
+    m_Localized: LAST STAG ECLEAR!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1780724905062400
+    m_Localized: Thank You For Gaming!
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

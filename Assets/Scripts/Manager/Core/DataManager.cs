@@ -48,10 +48,10 @@ public class DataManager
 
         if (UserData == null)
         {
-            UserData = new UserData(1, 0, 500, 1, 21, 0, 1.0f, 1.0f);
+            UserData = new UserData(1, 0, 500, 1, 15, 0, 0.75f, 0.5f);
         }
 
-        LocalizationSettings.InitializationOperation.WaitForCompletion();   // ·Îµù¾À?
+        LocalizationSettings.InitializationOperation.WaitForCompletion();
         LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[UserData.CurrentLanguage];
     }
 
@@ -61,7 +61,7 @@ public class DataManager
 
         if (!File.Exists(saveFilePath))
         {
-            Debug.LogError("No such saveFile exists");
+            // Debug.LogError("No such saveFile exists");
 
             return null;
         }
@@ -130,6 +130,6 @@ public class DataManager
 
         string saveFilePath = $"{savePath}userData.json";
         File.WriteAllText(saveFilePath, saveJson);
-        Debug.Log("Save Success: " + saveFilePath);
+        // Debug.Log("Save Success: " + saveFilePath);
     }
 }

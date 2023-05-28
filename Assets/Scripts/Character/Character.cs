@@ -10,6 +10,7 @@ public class Stat
     public DamageType DamageType { get; private set; }
     public float MovementPoint { get; private set; }
     public int AttackRange { get; private set; }
+    public int SkillRange { get; private set; }
     public int Strength { get; private set; }
     public int Intelligence { get; private set; }
     public int Defense { get; private set; }
@@ -37,14 +38,15 @@ public class Stat
         set { mp = Math.Clamp(value, 0, MaxMp); }
     }
 
-    public Stat(string name, DamageType damageType, float movementPoint, int attackRange, int strength, int intelligence, int defense, int resistance,
+    public Stat(string name, DamageType damageType, float movementPoint, int attackRange, int skillRange, int strength, int intelligence, int defense, int resistance,
                 SkillType skillType, int skillMpCost, int skillDamageRatio, float criticalChance, float criticalDamageRatio, int maxHp, int maxMp)
     {
         Name = name;
         DamageType = damageType;
         MovementPoint = movementPoint;
         AttackRange = attackRange;
-        Strength = strength;    // Strength = strength + Data.Stat.strength;
+        SkillRange = skillRange;
+        Strength = strength;
         Intelligence = intelligence;
         Defense = defense;
         Resistance = resistance;
@@ -80,9 +82,9 @@ public class Character : MonoBehaviour
             bonusStat = Managers.Data.CalculateBonusStat();
         }
 
-        stat = new Stat(characterData.CharacterName, characterData.ClassType, characterData.MovementPoint, characterData.AttackRange, characterData.Strength + bonusStat,
-                        characterData.Intelligence + bonusStat, characterData.Defense + bonusStat, characterData.Resistance + bonusStat, characterData.SkillType, characterData.SkillMpCost,
-                        characterData.SkillDamageRatio, characterData.CriticalChance, characterData.CriticalDamageRatio, characterData.MaxHp, characterData.MaxMp);
+        stat = new Stat(characterData.CharacterName, characterData.ClassType, characterData.MovementPoint, characterData.AttackRange, characterData.SkillRange,
+                        characterData.Strength + bonusStat, characterData.Intelligence + bonusStat, characterData.Defense + bonusStat, characterData.Resistance + bonusStat, characterData.SkillType,
+                        characterData.SkillMpCost, characterData.SkillDamageRatio, characterData.CriticalChance, characterData.CriticalDamageRatio, characterData.MaxHp, characterData.MaxMp);
         gridObject = GetComponent<GridObject>();
         characterAnimator = GetComponent<CharacterAnimator>();
     }

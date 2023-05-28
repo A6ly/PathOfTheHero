@@ -1,6 +1,8 @@
+using DG.Tweening;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static Define;
 
 public class BattleManager : MonoBehaviour
 {
@@ -32,6 +34,8 @@ public class BattleManager : MonoBehaviour
 
     List<Vector2Int> attackPosition;
 
+    [SerializeField] GameObject rangeNotificationText;
+
     public void CalculateWalkableGround(Character character, bool isHighlight = true)
     {
         GridObject gridObject = character.GetComponent<GridObject>();
@@ -60,7 +64,7 @@ public class BattleManager : MonoBehaviour
         return path;
     }
 
-    public void CalculateAttackArea(Vector2Int characterPositionOnGrid, int attackRange, string tag, bool selfTargetable = false)
+    public void CalculateAttackArea(Vector2Int characterPositionOnGrid, int range, string tag, bool selfTargetable = false)
     {
         if (attackPosition == null)
         {
@@ -71,11 +75,11 @@ public class BattleManager : MonoBehaviour
             attackPosition.Clear();
         }
 
-        for (int x = -attackRange; x <= attackRange; x++)
+        for (int x = -range; x <= range; x++)
         {
-            for (int y = -attackRange; y <= attackRange; y++)
+            for (int y = -range; y <= range; y++)
             {
-                if (Mathf.Abs(x) + Mathf.Abs(y) > attackRange)
+                if (Mathf.Abs(x) + Mathf.Abs(y) > range)
                 {
                     continue;
                 }
@@ -117,6 +121,13 @@ public class BattleManager : MonoBehaviour
     {
         if (!attackPosition.Any())
         {
+            Managers.Sound.Play("NoticeEffect", SoundType.Effect);
+
+            DOTween.Sequence()
+            .AppendCallback(() => rangeNotificationText.SetActive(true))
+            .AppendInterval(3f)
+            .AppendCallback(() => rangeNotificationText.SetActive(false));
+
             return true;
         }
 

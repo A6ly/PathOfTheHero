@@ -40,6 +40,11 @@ public class SoundManager
             audioSource.Stop();
         }
 
+        foreach (AudioClip audioClip in audioClips.Values)
+        {
+            Addressables.Release(audioClip);
+        }
+
         audioClips.Clear();
     }
 

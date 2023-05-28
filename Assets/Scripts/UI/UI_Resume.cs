@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using static Define;
 
 public class UI_Resume : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class UI_Resume : MonoBehaviour
 
         while (countTime >= 0)
         {
+            Managers.Sound.Play("TickEffect", SoundType.Effect);
+
             countText.text = $"{countTime}";
 
             yield return new WaitForSecondsRealtime(1.0f);

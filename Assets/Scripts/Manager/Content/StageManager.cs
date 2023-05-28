@@ -21,6 +21,7 @@ public class StageManager : MonoBehaviour
     [SerializeField] PathFinder pathFinder;
     [SerializeField] GridHighlight moveHighlight;
     [SerializeField] GridHighlight attackHighlight;
+    [SerializeField] BgmType bgmType;
 
     public Grid StageGrid { get { return stageGrid; } }
     public PathFinder PathFinder { get { return pathFinder; } }
@@ -48,7 +49,7 @@ public class StageManager : MonoBehaviour
 
     private void Start()
     {
-        Managers.Sound.Play("Battle01Bgm", SoundType.Bgm);
+        Managers.Sound.Play(bgmType.ToString(), SoundType.Bgm);
     }
 
     public void ClearPathFinder()

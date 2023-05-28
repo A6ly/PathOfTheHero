@@ -24,7 +24,10 @@ public class UI_PauseMenu : MonoBehaviour
 
     public void QuitButton()
     {
+        Time.timeScale = 1f;
         Managers.Sound.Play("Button01Effect", SoundType.Effect);
+        DOTween.KillAll();
+        Managers.Pool.Clear();
         SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
     }
 }

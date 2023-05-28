@@ -73,6 +73,26 @@ MonoBehaviour:
     m_Address: StageClearEffect
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 19f89c6e740e7447f9e12a8310d3e973
+    m_Address: TickEffect
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 724131bc8a7f34041bb9f1701f0cb58d
+    m_Address: NoticeEffect
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 56703418e3aed4c47a5f6622816b8e41
+    m_Address: ClawEffect
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 4e349dc959014a845b9aa317d1c2b7f0
+    m_Address: WingStepEffect
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c619008f1efb180488a78e4a966a3e16
+    m_Address: GhostStepEffect
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 4633ec301388a144b8ebd2d1210c1719, type: 2}
   m_SchemaSet:

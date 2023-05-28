@@ -14,10 +14,19 @@ public class DamageEffect : MonoBehaviour
         poolable = GetComponent<Poolable>();
     }
 
-    public IEnumerator PlayDamageEffect(Vector3 targetPos, string damage)
+    public IEnumerator PlayDamageEffect(Vector3 targetPos, string damage, bool isCritical)
     {
-        transform.position = new Vector3(targetPos.x, targetPos.y + 2.0f, targetPos.z);
-        textMeshPro.text = damage;
+        transform.position = new Vector3(targetPos.x, targetPos.y + 3.0f, targetPos.z);
+
+        if (isCritical)
+        {
+            textMeshPro.text = $"Critical!\n{damage}";
+        }
+        else
+        {
+            textMeshPro.text = damage;
+        }
+
         textMeshPro.DOFade(1.0f, 0.15f);
 
         yield return new WaitForSeconds(3.0f);

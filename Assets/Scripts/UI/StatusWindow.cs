@@ -10,12 +10,14 @@ public class StatusWindow : MonoBehaviour
     [SerializeField] Image damageTypeIcon;
     [SerializeField] Slider hpBar;
     [SerializeField] Slider mpBar;
-
-    [SerializeField] CharacterStatValueText strValueText;
-    [SerializeField] CharacterStatValueText intValueText;
-    [SerializeField] CharacterStatValueText defValueText;
-    [SerializeField] CharacterStatValueText regValueText;
-    [SerializeField] CharacterStatValueText rangeValueText;
+    [SerializeField] TextMeshProUGUI hpValueText;
+    [SerializeField] TextMeshProUGUI mpValueText;
+    [SerializeField] TextMeshProUGUI strValueText;
+    [SerializeField] TextMeshProUGUI intValueText;
+    [SerializeField] TextMeshProUGUI defValueText;
+    [SerializeField] TextMeshProUGUI resValueText;
+    [SerializeField] TextMeshProUGUI attackRangeValueText;
+    [SerializeField] TextMeshProUGUI skillRangeValueText;
 
     Sprite physicalTypeIcon;
     Sprite magicalTypeIcon;
@@ -32,13 +34,13 @@ public class StatusWindow : MonoBehaviour
     {
         if (character.CompareTag("Player"))
         {
-            nameText.text = $"[<color=#9BBFEA>{character.stat.Name}</color>]";
+            nameText.text = $"[<color=#00EBFB>{character.stat.Name}</color>]";
         }
         else
         {
             nameText.text = $"[<color=#FF60DB>{character.stat.Name}</color>]";
         }
-        
+
         hpBar.maxValue = character.stat.MaxHp;
         hpBar.value = character.stat.Hp;
         mpBar.maxValue = character.stat.MaxMp;
@@ -54,11 +56,14 @@ public class StatusWindow : MonoBehaviour
                 break;
         }
 
-        strValueText.UpdateText(character.stat.Strength);
-        intValueText.UpdateText(character.stat.Intelligence);
-        defValueText.UpdateText(character.stat.Defense);
-        regValueText.UpdateText(character.stat.Resistance);
-        rangeValueText.UpdateText(character.stat.AttackRange);
+        hpValueText.text = $"{character.stat.Hp}/{character.stat.MaxHp}";
+        mpValueText.text = $"{character.stat.Mp}/{character.stat.MaxMp}";
+        strValueText.text = $"{character.stat.Strength}";
+        intValueText.text = $"{character.stat.Intelligence}";
+        defValueText.text = $"{character.stat.Defense}";
+        resValueText.text = $"{character.stat.Resistance}";
+        attackRangeValueText.text = $"{character.stat.AttackRange}";
+        skillRangeValueText.text = $"{character.stat.SkillRange}";
     }
 
     private void Clear()

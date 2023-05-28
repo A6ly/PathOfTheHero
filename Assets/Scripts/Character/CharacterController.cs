@@ -42,7 +42,7 @@ public class CharacterController : MonoBehaviour
         transform.DOLookAt(transform.position + direction, 0.15f).SetEase(Ease.InOutSine);
     }
 
-    private void StartBattle()
+    private void StartBattle(GridObject gridObject)
     {
         if (isPlayer)
         {
@@ -65,7 +65,7 @@ public class CharacterController : MonoBehaviour
 
     public void Move(List<PathNode> path)
     {
-        StartBattle();
+        StartBattle(gridObject);
 
         pathWorldPositions = StageManager.Instance.StageGrid.ConvertPathNodesToWorldPositions(path);
 
@@ -100,7 +100,7 @@ public class CharacterController : MonoBehaviour
 
     public void Attack(GridObject targetGridObject)
     {
-        StartBattle();
+        StartBattle(targetGridObject);
         StartCoroutine(Attacking(targetGridObject));
     }
 
@@ -117,15 +117,17 @@ public class CharacterController : MonoBehaviour
 
         Character target = targetGridObject.GetComponent<Character>();
         int damage = character.GetDamage();
+        bool isCritical = false;
 
         if (Random.value <= character.stat.CriticalChance)
         {
+            isCritical = true;
             damage = (int)(damage * character.stat.CriticalDamageRatio);
         }
 
         damage = Mathf.Max(damage - target.GetDefense(character.stat.DamageType), 0);
         target.TakeDamage(damage);
-        EffectManager.Instance.PlayDamageEffect(targetGridObject.transform.position, damage.ToString(), character.tag);
+        EffectManager.Instance.PlayDamageEffect(targetGridObject.transform.position, damage.ToString(), character.tag, isCritical);
 
         yield return new WaitForSeconds(1.0f);
 
@@ -134,7 +136,7 @@ public class CharacterController : MonoBehaviour
 
     public void Skill(GridObject targetGridObject)
     {
-        StartBattle();
+        StartBattle(targetGridObject);
         StartCoroutine(Skilling(targetGridObject));
     }
 

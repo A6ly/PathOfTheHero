@@ -28,7 +28,7 @@ public class CommandInput : MonoBehaviour
                 BattleManager.Instance.CalculateAttackArea(gridObjectSelector.selected.GetComponent<GridObject>().positionOnGrid, gridObjectSelector.selected.stat.AttackRange, gridObjectSelector.selected.tag);
                 break;
             case CommandType.Skill:
-                BattleManager.Instance.CalculateAttackArea(gridObjectSelector.selected.GetComponent<GridObject>().positionOnGrid, gridObjectSelector.selected.stat.AttackRange, gridObjectSelector.selected.tag);
+                BattleManager.Instance.CalculateAttackArea(gridObjectSelector.selected.GetComponent<GridObject>().positionOnGrid, gridObjectSelector.selected.stat.SkillRange, gridObjectSelector.selected.tag);
                 break;
         }
     }
@@ -87,7 +87,7 @@ public class CommandInput : MonoBehaviour
 
     private void AttackCommandInput()
     {
-        if(BattleManager.Instance.CheckNoAttackablePosition())
+        if (BattleManager.Instance.CheckNoAttackablePosition())
         {
             StopCommandInput();
         }

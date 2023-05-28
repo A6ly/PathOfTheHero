@@ -16,8 +16,18 @@ public class UI_Settings : MonoBehaviour
 
         effectSoundBar.onValueChanged.AddListener(SetEffectVolume);
         BgmSoundBar.onValueChanged.AddListener(SetBgmVolume);
-        englishButton.onClick.AddListener(() => SetLocalization(0));
-        koreanButton.onClick.AddListener(() => SetLocalization(1));
+
+        englishButton.onClick.AddListener(() =>
+        {
+            Managers.Sound.Play("Button01Effect", SoundType.Effect);
+            SetLocalization(0);
+        });
+
+        koreanButton.onClick.AddListener(() =>
+        {
+            Managers.Sound.Play("Button01Effect", SoundType.Effect);
+            SetLocalization(1);
+        });
 
         SetLanguageButtons();
     }
@@ -32,6 +42,7 @@ public class UI_Settings : MonoBehaviour
     {
         Managers.Sound.Play("Button01Effect", SoundType.Effect);
         Managers.Data.Save();
+        gameObject.SetActive(false);
     }
 
     private void SetEffectVolume(float volume)
@@ -44,7 +55,7 @@ public class UI_Settings : MonoBehaviour
         Managers.Sound.SetBgmVolume(volume);
     }
 
-    private void SetLanguageButtons() 
+    private void SetLanguageButtons()
     {
         if (Managers.Data.UserData.CurrentLanguage == 0)
         {

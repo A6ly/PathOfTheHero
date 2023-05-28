@@ -16,11 +16,155 @@ MonoBehaviour:
   m_TableCollectionNameGuidString: 08f062b719e65a144bd36d8d89e23eb8
   m_Entries:
   - m_Id: 112437952512
-    m_Key: start_key
+    m_Key: Start_key
     m_Metadata:
       m_Items: []
   - m_Id: 223603785728
-    m_Key: New Entry
+    m_Key: PLAY_key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 325841604247552
+    m_Key: SETTINGS_key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 326037528576000
+    m_Key: EXIT_key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 326781094789120
+    m_Key: MainMenu_key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 327285317238784
+    m_Key: Move_key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 327328166248448
+    m_Key: Attack_key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 327362760867840
+    m_Key: Skill_key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 327688066891776
+    m_Key: Cancel_key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 328705441464320
+    m_Key: PlayerTurn_key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 328806805209088
+    m_Key: EnemyTurn_key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 337005994246144
+    m_Key: RETRY_key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 337143391256576
+    m_Key: RESUME_key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 337516482985984
+    m_Key: QUIT_key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 341141670264832
+    m_Key: EffectSound_key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 341196422709248
+    m_Key: BGM_key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 341268032061440
+    m_Key: English_key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 341298126192640
+    m_Key: Korean_key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 346728722268160
+    m_Key: STR_key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 346931869188096
+    m_Key: INT_key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 347075184361472
+    m_Key: DEF_key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 347183330295808
+    m_Key: RES_key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 347285402877952
+    m_Key: AttackRange_key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 349154888056832
+    m_Key: ENDTURN_key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 718534167691264
+    m_Key: SkillRange_key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 724550825476096
+    m_Key: RangeNotification_key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1066561039806464
+    m_Key: PlayerTurnText_key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1723720148758528
+    m_Key: STAGECLEAR_key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1724067726536704
+    m_Key: VICTORY_key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1724237822341120
+    m_Key: REWARDS_key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1724643805802496
+    m_Key: ExperienceIncrease_key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1724954855387136
+    m_Key: Next Stage_key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1725880450199552
+    m_Key: GameOver_key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1726060390035456
+    m_Key: LOSE_key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1726369703178240
+    m_Key: ComeBackStronger_key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1726928866816000
+    m_Key: LEVEL_key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1779588072517632
+    m_Key: LASTSTAGECLEAR_key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1780724905062400
+    m_Key: ThankYouForGaming_key
     m_Metadata:
       m_Items: []
   m_Metadata:

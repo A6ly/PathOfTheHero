@@ -30,6 +30,9 @@ public class Define
     {
         None,
         ElectroSlash,
+        StoneSlash,
+        Meteors,
+        Blizzard,
     }
 
     public enum LayerType
@@ -44,10 +47,21 @@ public class Define
         Max,
     }
 
+    public enum BgmType
+    {
+        MainBgm,
+        Battle01Bgm,
+        Battle02Bgm,
+        Battle03Bgm,
+        Battle04Bgm,
+    }
+
     public enum StepSoundType
     {
         GrassStepEffect,
         SlimeStepEffect,
+        WingStepEffect,
+        GhostStepEffect,
     }
 
     public enum AttackSoundType
@@ -60,5 +74,6 @@ public class Define
     {
         SlashEffect,
         ElectroEffect,
+        ClawEffect,
     }
 }

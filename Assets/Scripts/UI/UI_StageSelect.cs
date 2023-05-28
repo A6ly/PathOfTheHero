@@ -44,7 +44,7 @@ public class UI_StageSelect : MonoBehaviour
                     button.GetComponent<Button>().interactable = false;
                     button.GetComponent<Image>().sprite = lastStageButton;
                 }
-                
+
                 continue;
             }
 

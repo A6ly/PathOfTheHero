@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using static Define;
 
 public class GridMousePointer : MonoBehaviour
@@ -16,7 +17,7 @@ public class GridMousePointer : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, float.MaxValue, groundLayerMask))
+        if (!EventSystem.current.IsPointerOverGameObject() && Physics.Raycast(ray, out hit, float.MaxValue, groundLayerMask))
         {
             Vector2Int hitPosition = StageManager.Instance.StageGrid.GetGridPosition(hit.point);
             marker.SetActive(true);
@@ -25,7 +26,6 @@ public class GridMousePointer : MonoBehaviour
             {
                 positionOnGrid = hitPosition;
                 UpdateMarker();
-                EffectManager.Instance.HighlightMarkerPointEffect(positionOnGrid);
             }
         }
         else
@@ -42,6 +42,8 @@ public class GridMousePointer : MonoBehaviour
             Vector3 worldPosition = StageManager.Instance.StageGrid.GetWorldPosition(positionOnGrid.x, positionOnGrid.y, true);
             worldPosition.y += elevation;
             marker.transform.position = worldPosition;
+
+            EffectManager.Instance.HighlightMarkerPointEffect(positionOnGrid);
         }
     }
 }

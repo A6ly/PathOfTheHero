@@ -35,6 +35,9 @@ public class EffectManager : MonoBehaviour
     [SerializeField] GameObject playerDamageEffect;
     [SerializeField] GameObject enemyDamageEffect;
     [SerializeField] GameObject electroSlash;
+    [SerializeField] GameObject stoneSlash;
+    [SerializeField] GameObject meteors;
+    [SerializeField] GameObject blizzard;
 
     public void HighlightMarkerPointEffect(Vector2Int positionOnGrid)
     {
@@ -85,27 +88,42 @@ public class EffectManager : MonoBehaviour
 
         switch (SkillType)
         {
+            case SkillType.None:
+                break;
             case SkillType.ElectroSlash:
                 skillEffect = Managers.Pool.Pop(electroSlash, gameObject.transform);
                 skillEffect.transform.position = new Vector3(pos.x, pos.y + 0.5f, pos.z);
                 skillEffect.transform.LookAt(targetPos);
+                break;
+            case SkillType.StoneSlash:
+                skillEffect = Managers.Pool.Pop(stoneSlash, gameObject.transform);
+                skillEffect.transform.position = new Vector3(pos.x, pos.y + 0.5f, pos.z);
+                skillEffect.transform.LookAt(targetPos);
+                break;
+            case SkillType.Meteors:
+                skillEffect = Managers.Pool.Pop(meteors, gameObject.transform);
+                skillEffect.transform.position = new Vector3(targetPos.x, targetPos.y + 0.5f, targetPos.z);
+                break;
+            case SkillType.Blizzard:
+                skillEffect = Managers.Pool.Pop(blizzard, gameObject.transform);
+                skillEffect.transform.position = new Vector3(targetPos.x, targetPos.y + 0.5f, targetPos.z);
                 break;
         }
 
         skillEffect.GetComponent<ParticleSystem>().Play();
     }
 
-    public void PlayDamageEffect(Vector3 targetPos, string damage, string tag)
+    public void PlayDamageEffect(Vector3 targetPos, string damage, string tag, bool isCritical = false)
     {
         if (tag == "Player")
         {
             Poolable damageEffect = Managers.Pool.Pop(playerDamageEffect, gameObject.transform);
-            StartCoroutine(damageEffect.GetComponent<DamageEffect>().PlayDamageEffect(targetPos, damage));
+            StartCoroutine(damageEffect.GetComponent<DamageEffect>().PlayDamageEffect(targetPos, damage, isCritical));
         }
         else if (tag == "Enemy")
         {
             Poolable damageEffect = Managers.Pool.Pop(enemyDamageEffect, gameObject.transform);
-            StartCoroutine(damageEffect.GetComponent<DamageEffect>().PlayDamageEffect(targetPos, damage));
+            StartCoroutine(damageEffect.GetComponent<DamageEffect>().PlayDamageEffect(targetPos, damage, isCritical));
         }
     }
 }
